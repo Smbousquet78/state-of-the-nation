@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>State of the Nation — Mid-2026 Diagnostic Index</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --black: #0a0a0a;
+  --off-black: #111111;
+  --dark: #1a1a1a;
+  --mid: #2a2a2a;
+  --border: #333333;
+  --muted: #666666;
+  --dim: #999999;
+  --light: #cccccc;
+  --white: #f5f0eb;
+  --red: #c0392b;
+  --red-bright: #e74c3c;
+  --red-dim: #7b241c;
+  --red-glow: rgba(192,57,43,0.15);
+  --amber: #d4880a;
+  --amber-dim: #8c5a07;
+  --gold: #c9a84c;
+  --green: #27ae60;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* GRAIN OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* HEADER */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 2rem 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.site-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red), var(--amber), var(--red), transparent);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.0;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+}
+
+.header-title em {
+  font-style: italic;
+  color: var(--red-bright);
+}
+
+.header-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--dim);
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.header-meta {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.header-meta span { color: var(--dim); }
+.header-meta strong { color: var(--red); }
+
+/* NAV */
+.domain-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.97);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.domain-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.domain-nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-item {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.875rem 1rem;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: block;
+}
+
+.nav-item:hover { color: var(--white); border-bottom-color: var(--border); }
+.nav-item.active { color: var(--red-bright); border-bottom-color: var(--red-bright); }
+
+/* MAIN */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+/* EXECUTIVE DASHBOARD */
+.exec-dashboard {
+  padding: 3rem 0 2rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.exec-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+}
+
+.exec-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--dim);
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.dashboard-row {
+  background: var(--off-black);
+  padding: 0.875rem 1rem;
+  display: grid;
+  grid-template-columns: 2fr auto auto 3fr;
+  align-items: center;
+  gap: 1rem;
+  transition: background 0.15s;
+}
+
+.dashboard-row:hover { background: var(--dark); }
+
+.dash-domain {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--light);
+  font-weight: 600;
+}
+
+.dash-score {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--red-bright);
+  background: var(--red-glow);
+  border: 1px solid var(--red-dim);
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.dash-trend {
+  font-size: 14px;
+  color: var(--red-bright);
+  font-family: var(--font-mono);
+}
+
+.dash-verdict {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* DOMAIN SECTIONS */
+.domain-section {
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.domain-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  margin-bottom: 2.5rem;
+}
+
+.domain-number {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--border);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  user-select: none;
+}
+
+.domain-title-block {}
+
+.domain-roman {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.domain-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 0.375rem;
+}
+
+.domain-verdict-line {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--red-bright);
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* GLANCE LAYER */
+.glance-layer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .glance-layer { grid-template-columns: 1fr; }
+  .domain-header { grid-template-columns: 1fr; }
+  .domain-number { display: none; }
+}
+
+/* KEY NUMBER */
+.key-number-block {
+  background: var(--off-black);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.key-number-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.key-number-value {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.0;
+  margin-bottom: 0.5rem;
+}
+
+.key-number-desc {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* MINI DASHBOARD */
+.section-dashboard {
+  background: var(--off-black);
+  border: 1px solid var(--border);
+}
+
+.sd-header {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sd-row {
+  display: grid;
+  grid-template-columns: 2fr auto;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(51,51,51,0.5);
+  align-items: center;
+}
+
+.sd-row:last-child { border-bottom: none; }
+
+.sd-metric {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--light);
+}
+
+.sd-status {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--red-bright);
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* BULLETS */
+.summary-bullets {
+  margin-bottom: 2rem;
+}
+
+.summary-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.bullet-list {
+  list-style: none;
+  border-left: 1px solid var(--border);
+  padding-left: 1.5rem;
+}
+
+.bullet-list li {
+  font-family: var(--font-body);
+  font-size: 0.925rem;
+  color: var(--light);
+  padding: 0.4rem 0;
+  line-height: 1.6;
+  position: relative;
+}
+
+.bullet-list li::before {
+  content: '→';
+  position: absolute;
+  left: -1.5rem;
+  color: var(--red);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* COMPARISON TABLE */
+.comparison-table-wrap {
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.comparison-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.comp-table th {
+  background: var(--dark);
+  color: var(--muted);
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.comp-table td {
+  padding: 0.5rem 0.75rem;
+  color: var(--light);
+  border-bottom: 1px solid rgba(51,51,51,0.4);
+  vertical-align: top;
+}
+
+.comp-table tr:last-child td { border-bottom: none; }
+.comp-table tr:hover td { background: var(--dark); }
+
+.td-red { color: var(--red-bright) !important; font-weight: 500; }
+.td-amber { color: var(--amber) !important; }
+.td-green { color: var(--green) !important; }
+.td-dim { color: var(--muted) !important; font-style: italic; }
+
+/* DEPTH NARRATIVE */
+.depth-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--off-black);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  width: 100%;
+  text-align: left;
+}
+
+.depth-toggle:hover { background: var(--dark); border-color: var(--muted); }
+
+.depth-toggle-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.depth-toggle-icon {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--red);
+  transition: transform 0.3s;
+}
+
+.depth-toggle.open .depth-toggle-icon { transform: rotate(45deg); }
+
+.depth-content {
+  display: none;
+  padding: 1.5rem;
+  background: var(--off-black);
+  border: 1px solid var(--border);
+  border-top: none;
+  margin-bottom: 1rem;
+}
+
+.depth-content.open { display: block; }
+
+.depth-content p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--dim);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.depth-content p:last-child { margin-bottom: 0; }
+
+/* CHART AREAS */
+.chart-area {
+  background: var(--off-black);
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+/* SYSTEM MAP */
+.system-map-section {
+  padding: 3rem 0;
+}
+
+.system-map-container {
+  background: var(--off-black);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.system-map-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+}
+
+.map-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.map-node {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.375rem 0.75rem;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.node-critical { background: var(--red-glow); border: 1px solid var(--red-dim); color: var(--red-bright); }
+.node-amber { background: rgba(212,136,10,0.1); border: 1px solid rgba(212,136,10,0.3); color: var(--amber); }
+.node-dark { background: var(--dark); border: 1px solid var(--border); color: var(--muted); }
+.node-corruption { background: rgba(192,57,43,0.25); border: 2px solid var(--red); color: var(--white); font-weight: 500; }
+
+.map-arrow {
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  margin: 0.25rem 0;
+}
+
+.map-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.1em;
+  margin: 0.125rem 0;
+}
+
+.map-loop-label {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--red);
+  letter-spacing: 0.1em;
+  padding: 0.5rem;
+  border: 1px dashed var(--red-dim);
+  margin-top: 0.5rem;
+}
+
+/* VERDICT */
+.verdict-section {
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.verdict-box {
+  background: var(--off-black);
+  border: 1px solid var(--red-dim);
+  border-left: 4px solid var(--red);
+  padding: 2.5rem;
+  position: relative;
+}
+
+.verdict-box::before {
+  content: 'DIAGNOSTIC VERDICT';
+  position: absolute;
+  top: -10px;
+  left: 1.5rem;
+  background: var(--off-black);
+  padding: 0 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--red);
+}
+
+.verdict-text {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.8;
+  font-style: italic;
+}
+
+/* FOOTER */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+.site-footer strong { color: var(--red); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.domain-section {
+  animation: fadeUp 0.4s ease both;
+}
+
+/* PROGRESS BAR */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--red);
+  z-index: 9999;
+  transition: width 0.1s;
+}
+
+/* SEARCH / FILTER */
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.filter-btn:hover { border-color: var(--muted); color: var(--light); }
+.filter-btn.active { border-color: var(--red); color: var(--red-bright); background: var(--red-glow); }
+</style>
+</head>
+<body>
+
+<div class="reading-progress" id="progress"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Diagnostic Report · Mid-2026 · Non-Partisan · Evidence-Based</div>
+    <h1 class="header-title">State of the<br><em>Nation</em></h1>
+    <p class="header-subtitle">A comprehensive diagnostic index of the United States — fifteen domains, one compounding system, no ideology.</p>
+    <div class="header-meta">
+      <div>Domains: <strong>15</strong></div>
+      <div>Scores: <strong>All Critical</strong></div>
+      <div>Character: <strong>Structural</strong></div>
+      <div>Sources: <strong>CBO · CDC · Gallup · SSA · ASCE · SEC · Peer-Reviewed Literature</strong></div>
+    </div>
+  </div>
+</header>
+
+<nav class="domain-nav">
+  <div class="domain-nav-inner">
+    <a href="#exec" class="nav-item active">Dashboard</a>
+    <a href="#health" class="nav-item">I. Health</a>
+    <a href="#healthcare" class="nav-item">II. Healthcare</a>
+    <a href="#economy" class="nav-item">III. Economy</a>
+    <a href="#debt" class="nav-item">IV. Debt</a>
+    <a href="#demographic" class="nav-item">V. Demographics</a>
+    <a href="#corruption" class="nav-item">VI. Corruption</a>
+    <a href="#trust" class="nav-item">VII. Trust</a>
+    <a href="#information" class="nav-item">VIII. Information</a>
+    <a href="#education" class="nav-item">IX. Education</a>
+    <a href="#mental" class="nav-item">X. Mental Health</a>
+    <a href="#social" class="nav-item">XI. Social Capital</a>
+    <a href="#ai" class="nav-item">XII. AI</a>
+    <a href="#opioid" class="nav-item">XIII. Opioids</a>
+    <a href="#infrastructure" class="nav-item">XIV. Infrastructure</a>
+    <a href="#system" class="nav-item">XV. System</a>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- EXECUTIVE DASHBOARD -->
+<section class="exec-dashboard" id="exec">
+  <div class="section-label">Executive Dashboard</div>
+  <h2 class="exec-title">All Fifteen Domains at a Glance</h2>
+  <p class="exec-subtitle">Every domain scores critical. Every trend is structural. Neither party has a credible plan for any of them.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterDash('all', this)">All Domains</button>
+    <button class="filter-btn" onclick="filterDash('structural', this)">Structural</button>
+    <button class="filter-btn" onclick="filterDash('accelerating', this)">Accelerating</button>
+  </div>
+
+  <div class="dashboard-grid" id="dashGrid">
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Physical Health</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">Sickest wealthy nation on earth</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Healthcare Costs</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">Spend 2× peers — get worse outcomes</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Economic Reality</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">Needs 20% income boost to restore</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">National Debt</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">$39T / 101% GDP — spiral by 2031</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Demographic Trap</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">SS trust fund depletes 2033</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Political Corruption</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">Bipartisan — documented — $218 fine</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Institutional Trust</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">2% confidence in elected officials</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Information Ecosystem</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">Shared reality no longer exists</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Education</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">$1.77T debt / credentials depreciating</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Mental Health</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">27M fewer thriving than 4 years ago</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Social Capital</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">Religious participation below 50%</span></div>
+    <div class="dashboard-row" data-type="accelerating"><span class="dash-domain">AI Displacement</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↑</span><span class="dash-verdict">60% fear job loss — career ladder severed</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Opioid / Fentanyl</span><span class="dash-score">🔴 Critical</span><span class="dash-trend">↓</span><span class="dash-verdict">500K dead since 1999 — ongoing</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Infrastructure</span><span class="dash-score">🔴 C−</span><span class="dash-trend">↓</span><span class="dash-verdict">42K+ structurally deficient bridges</span></div>
+    <div class="dashboard-row" data-type="structural"><span class="dash-domain">Presidential Approval</span><span class="dash-score">🔴 34–39%</span><span class="dash-trend">↓</span><span class="dash-verdict">Record low — both terms</span></div>
+  </div>
+</section>
+
+<!-- I. PHYSICAL HEALTH -->
+<section class="domain-section" id="health">
+  <div class="domain-header">
+    <div class="domain-number">I</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain I</div>
+      <h2 class="domain-title">Physical Health</h2>
+      <p class="domain-verdict-line">The sickest wealthy nation on earth — structural, multi-decade, worsening.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">194M</div>
+      <div class="key-number-desc">American adults with at least one chronic condition. That is 6 in 10 young adults, 8 in 10 middle-aged adults, 9 in 10 older adults.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Chronic disease burden</span><span class="sd-status">🔴 2.4× peer nations</span></div>
+      <div class="sd-row"><span class="sd-metric">Food supply (ultra-processed)</span><span class="sd-status">🔴 70% of packaged food</span></div>
+      <div class="sd-row"><span class="sd-metric">Glyphosate contamination</span><span class="sd-status">🔴 80% urine samples</span></div>
+      <div class="sd-row"><span class="sd-metric">Excess mortality</span><span class="sd-status">🔴 700K above baseline</span></div>
+      <div class="sd-row"><span class="sd-metric">Microplastics in human tissue</span><span class="sd-status">🔴 No regulatory response</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">US vs. Peer Nations — Chronic Disease Rates</div>
+    <table class="comp-table">
+      <thead><tr><th>Condition</th><th>US Rate</th><th>Peer Average</th><th>US Multiple</th></tr></thead>
+      <tbody>
+        <tr><td>Obesity</td><td class="td-red">40.3%</td><td>~17%</td><td class="td-red">2.4×</td></tr>
+        <tr><td>Diabetes</td><td class="td-red">~11%</td><td>~6%</td><td class="td-red">~2×</td></tr>
+        <tr><td>Asthma</td><td class="td-red">~10%</td><td>~6%</td><td class="td-amber">1.7×</td></tr>
+        <tr><td>Depression</td><td class="td-red">~21%</td><td>~16%</td><td class="td-amber">1.3×</td></tr>
+        <tr><td>Life expectancy</td><td class="td-red">76.4 yrs</td><td>~82 yrs</td><td class="td-red">−5.6 years</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>The US has 2.4× the obesity rate of comparable wealthy nations and 2× the diabetes rate — the sickest rich country on earth</li>
+      <li>70% of packaged US food is ultra-processed — the government's own FDA and HHS now confirm this is driving the chronic disease epidemic</li>
+      <li>Glyphosate is in 80% of American urine samples including children's — the EPA says it is safe, the IARC says it probably causes cancer. One of them is wrong.</li>
+      <li>Microplastics confirmed in human blood, lungs, and brain tissue — no regulatory response exists</li>
+      <li>700,000 excess deaths above baseline in 2023 — entirely predicted by researchers before the pandemic based on pre-existing mortality trends</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The United States is the sickest wealthy nation on earth by chronic disease metrics — a structural deterioration spanning decades that has now reached epidemic proportions across virtually every major health category. The CDC documents that 194 million American adults carry at least one chronic condition. The US has 2.4× the obesity rate of comparable wealthy nations, 2× the diabetes rate, 1.7× the asthma rate, and 1.3× the depression rate. These are not marginal differences. They are categorical ones that drive shorter life expectancy and higher death rates than every peer nation the US is typically compared against.</p>
+    <p>The food supply is where the physical health picture intersects most directly with institutional failure. The FDA's own Commissioner stated in July 2025: "The threats posed to our health by foods often considered ultra-processed are clear and convincing." HHS Secretary RFK Jr. stated simultaneously: "Ultra-processed foods are driving our chronic disease epidemic." These are not activist claims. They are the current official positions of the federal agencies responsible for the food supply — the same agencies that permitted the current state of affairs for decades.</p>
+    <p>Glyphosate — the world's most widely used herbicide and active ingredient in Roundup — is detected in 70–80% of all people examined including children, according to the University of Washington's Seattle Statement. Food is the primary route of exposure. Americans' glyphosate exposure increased approximately 500% since Roundup Ready GMO crops were introduced in 1996 (JAMA, 2017). The regulatory contradiction is explicit: the EPA classifies glyphosate as not likely to cause cancer. The IARC classifies it as "probably carcinogenic." These are not nuanced differences of degree. They are opposite conclusions from two authoritative bodies — one of which has jurisdiction over the American food supply.</p>
+    <p>The US experienced 700,000 excess deaths above baseline in 2023 — exactly what researchers at Boston University and the University of Minnesota predicted based on prior rising trends, entirely independent of the pandemic. They describe this as "a protracted health crisis for decades" driven by drug overdose, gun violence, and preventable cardiometabolic deaths. The US has been in a structural mortality crisis for forty years. COVID did not cause it. It revealed it.</p>
+  </div>
+</section>
+
+<!-- II. HEALTHCARE COSTS -->
+<section class="domain-section" id="healthcare">
+  <div class="domain-header">
+    <div class="domain-number">II</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain II</div>
+      <h2 class="domain-title">Healthcare Costs</h2>
+      <p class="domain-verdict-line">The system that consumes and underdelivers — a structural extraction mechanism, not a health system.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">2×</div>
+      <div class="key-number-desc">The US spends twice per capita what comparable wealthy nations spend on healthcare — and achieves worse outcomes on virtually every major metric.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Per capita spend vs. peers</span><span class="sd-status">🔴 $13K vs. $5K avg</span></div>
+      <div class="sd-row"><span class="sd-metric">Life expectancy outcome</span><span class="sd-status">🔴 76.4 vs. 82 yrs avg</span></div>
+      <div class="sd-row"><span class="sd-metric">Medical bankruptcy</span><span class="sd-status">🔴 Uniquely American</span></div>
+      <div class="sd-row"><span class="sd-metric">Insurance overhead</span><span class="sd-status">🔴 30% vs. 12% peers</span></div>
+      <div class="sd-row"><span class="sd-metric">Uninsured trend</span><span class="sd-status">🔴 +10.8M by 2036</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">Healthcare Spending vs. Outcomes — International Comparison</div>
+    <table class="comp-table">
+      <thead><tr><th>Country</th><th>Per Capita Spend</th><th>Life Expectancy</th><th>Universal Coverage</th></tr></thead>
+      <tbody>
+        <tr><td>United States</td><td class="td-red">~$13,000</td><td class="td-red">76.4 years</td><td class="td-red">No</td></tr>
+        <tr><td>Germany</td><td>~$7,500</td><td class="td-green">80.7 years</td><td class="td-green">Yes</td></tr>
+        <tr><td>Canada</td><td>~$6,300</td><td class="td-green">82.0 years</td><td class="td-green">Yes</td></tr>
+        <tr><td>Japan</td><td>~$5,000</td><td class="td-green">84.3 years</td><td class="td-green">Yes</td></tr>
+        <tr><td>UK</td><td>~$4,500</td><td class="td-green">80.7 years</td><td class="td-green">Yes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>The US spends twice what peer nations spend on healthcare and achieves worse outcomes — this is not a funding problem, it is a structural extraction problem</li>
+      <li>Medical bankruptcy is essentially a uniquely American phenomenon — financial ruin from illness does not occur at scale in any other wealthy nation</li>
+      <li>Hospital consolidation has eliminated price competition — a 2019 study found hospital prices 300% higher in monopoly markets than competitive ones</li>
+      <li>Insurance administrative overhead consumes approximately 30% of healthcare dollars vs. 12% in peer systems</li>
+      <li>The number of uninsured Americans is projected to rise by 10.8 million between 2025 and 2036</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The US healthcare system is not underperforming. It is performing exactly as its incentive structures dictate. The problem is that those structures reward volume, complexity, and billing — not health outcomes. At $13,000 per capita annually, the US spends nearly triple Japan's per-person cost and achieves a life expectancy 8 years shorter. This is not a quirk of measurement. It is the most reliable indicator available that the system's orientation is toward extraction rather than health.</p>
+    <p>Hospital consolidation has systematically eliminated the price competition that would otherwise constrain costs. The FTC has documented that hospital mergers consistently produce price increases without quality improvements. A 2019 peer-reviewed study found hospital prices in monopoly markets were 300% higher than in competitive ones. The revolving door between hospital systems, insurers, pharmaceutical companies, and their regulatory bodies has produced a system where the entities being regulated effectively write the rules under which they operate.</p>
+    <p>Medical bankruptcy — the financial destruction of families by medical bills — is essentially a uniquely American phenomenon. It does not occur at scale in Germany, Japan, Canada, the UK, France, or any comparable wealthy nation. Its existence is not a natural feature of advanced healthcare. It is the specific product of a system that treats health as a commodity rather than a common good, and that has successfully lobbied against every structural reform that would change this.</p>
+  </div>
+</section>
+
+<!-- III. ECONOMY -->
+<section class="domain-section" id="economy">
+  <div class="domain-header">
+    <div class="domain-number">III</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain III</div>
+      <h2 class="domain-title">Economic Reality</h2>
+      <p class="domain-verdict-line">The gap between what the statistics report and what households experience is the story.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">77%</div>
+      <div class="key-number-desc">of Americans say achieving a middle-class lifestyle is harder than it was a generation ago. This is not pessimism. It is accurate. (NYT/Siena, Jan 2026)</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Real purchasing power vs. 2021</span><span class="sd-status">🔴 Needs 20% boost</span></div>
+      <div class="sd-row"><span class="sd-metric">Housing price-to-income</span><span class="sd-status">🔴 4.9× ratio</span></div>
+      <div class="sd-row"><span class="sd-metric">Wages vs. CPI inflation</span><span class="sd-status">🔴 −0.2% real</span></div>
+      <div class="sd-row"><span class="sd-metric">Home deficit</span><span class="sd-status">🔴 4M+ units</span></div>
+      <div class="sd-row"><span class="sd-metric">Tariff household cost</span><span class="sd-status">🔴 $1,700+ per family</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">What the Numbers Say vs. What People Experience</div>
+    <table class="comp-table">
+      <thead><tr><th>Headline Metric</th><th>What It Shows</th><th>Lived Reality Metric</th><th>What It Shows</th></tr></thead>
+      <tbody>
+        <tr><td>Unemployment rate</td><td class="td-green">4.3% — low</td><td>Job search sentiment</td><td class="td-red">72% say bad time to find work</td></tr>
+        <tr><td>Nominal wage growth</td><td class="td-amber">+3.6%</td><td>Real wage growth</td><td class="td-red">−0.2% (lagging inflation)</td></tr>
+        <tr><td>GDP growth</td><td class="td-green">Positive</td><td>Purchasing power vs. 2021</td><td class="td-red">Needs 20% boost to restore</td></tr>
+        <tr><td>Stock market</td><td class="td-green">Near highs</td><td>Median household wealth</td><td class="td-red">Flat to declining real terms</td></tr>
+        <tr><td>CPI inflation</td><td class="td-amber">3.8%</td><td>Housing cost burden</td><td class="td-red">4.9× income-to-price ratio</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>Real wages have lagged inflation every single month since April 2026 — restoring 2021 purchasing power requires a 20% income increase that has not occurred</li>
+      <li>The US faces a 4-million home deficit — housing prices have risen over 1,000% since the 1970s while wages have not kept pace</li>
+      <li>Average American family paid over $1,700 in additional tariff costs in the 12 months to January 2026</li>
+      <li>65% say a middle-class lifestyle is out of reach — 77% say it is harder than a generation ago</li>
+      <li>Energy costs surging — Iran war driving $1.00/gallon gas increase since February 2026</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The headline economic statistics are real numbers. They are also profoundly inadequate descriptions of the economic reality experienced by the median American household. The gap between what the statistics report and what households experience is itself one of the most significant economic stories of the current period — because it explains the persistent mismatch between professional economic commentary and public economic sentiment that commentators continue to misread as irrationality.</p>
+    <p>Realtor.com's senior economic research analyst confirmed in April 2026 that incomes would need a 20% boost to restore pre-pandemic purchasing power. That restoration has not occurred. The cumulative inflation surge that peaked at 9.1% in June 2022 — the highest in 40 years — was never matched by equivalent wage gains during the period of maximum damage. USAFacts confirmed as of May 22, 2026: wages have grown slower than inflation every month since April 2026.</p>
+    <p>The housing situation is not a cycle. It is a structural transformation of who can afford to own property in the United States. The US faces a deficit of over 4 million homes. The home price-to-income ratio stands at approximately 4.9. Median home prices have increased over 1,000% since the 1970s. A generation has been effectively locked out of the ownership pathway that was the primary vehicle for middle-class wealth accumulation in the 20th century. No policy currently proposed by either party addresses the supply deficit at the scale required to change this.</p>
+  </div>
+</section>
+
+<!-- IV. DEBT -->
+<section class="domain-section" id="debt">
+  <div class="domain-header">
+    <div class="domain-number">IV</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain IV</div>
+      <h2 class="domain-title">The National Debt</h2>
+      <p class="domain-verdict-line">A mathematical trajectory with no credible resolution from either party.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">$1,000,000,000,000</div>
+      <div class="key-number-desc">Annual interest payment on the national debt in FY2026 — nearly triple 2020 levels — the fastest growing line in the federal budget — produces nothing.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Total debt</span><span class="sd-status">🔴 $39T / 101% GDP</span></div>
+      <div class="sd-row"><span class="sd-metric">Annual deficit</span><span class="sd-status">🔴 $1.9T / 5.8% GDP</span></div>
+      <div class="sd-row"><span class="sd-metric">Annual interest</span><span class="sd-status">🔴 $1T — tripled since 2020</span></div>
+      <div class="sd-row"><span class="sd-metric">Interest exceeds discretionary</span><span class="sd-status">🔴 By 2038</span></div>
+      <div class="sd-row"><span class="sd-metric">Debt spiral risk</span><span class="sd-status">🔴 Possible by 2031</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">Interest Payment Trajectory (CBO Baseline Projections)</div>
+    <table class="comp-table">
+      <thead><tr><th>Year</th><th>Annual Interest</th><th>% of GDP</th><th>Context</th></tr></thead>
+      <tbody>
+        <tr><td>2020</td><td>$345B</td><td class="td-green">~1.6%</td><td class="td-dim">Pre-pandemic baseline</td></tr>
+        <tr><td>2025</td><td class="td-amber">$970B</td><td class="td-amber">3.2%</td><td class="td-dim">Tied all-time high (1991)</td></tr>
+        <tr><td>2026</td><td class="td-red">$1.0T</td><td class="td-red">3.3%</td><td class="td-dim">New record</td></tr>
+        <tr><td>2036</td><td class="td-red">$2.1T</td><td class="td-red">4.6%</td><td class="td-dim">Exceeds all discretionary spending</td></tr>
+        <tr><td>2056</td><td class="td-red">Projected</td><td class="td-red">6.9%</td><td class="td-dim">Debt at 175% GDP</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>$39 trillion national debt — 101% of GDP — a level only exceeded once in US history, briefly, at the end of WWII</li>
+      <li>$1 trillion annually in interest — money that builds nothing, funds nothing, and helps no one</li>
+      <li>By 2038 interest payments will exceed ALL other discretionary spending combined — defense, roads, research, education, everything</li>
+      <li>Neither party has produced a credible plan — this is a bipartisan failure spanning decades</li>
+      <li>CBO projects by 2031 the interest rate on debt could exceed economic growth — the mathematical definition of a debt spiral</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The Congressional Budget Office projects that the federal budget deficit in fiscal year 2026 is $1.9 trillion — 5.8% of GDP. The 50-year historical average for the deficit is 3.8% of GDP. The CBO projects deficits will exceed 5% of GDP every single year from 2020 to 2056 — something that has never occurred for more than five consecutive years in American history outside of World War II. This is not a projection of a future risk. It is the current reality extended forward under current law.</p>
+    <p>Net interest payments reached $970 billion in 2025 — tied with 1991 as the all-time high as a share of GDP. They are projected to exceed $1 trillion in fiscal year 2026 — nearly triple the $345 billion paid in 2020. Interest payments are currently the fastest-growing line in the federal budget. By 2038 they will exceed total discretionary spending — meaning the US government will spend more paying interest on past borrowing than on everything else it funds through discretionary spending combined.</p>
+    <p>The Committee for a Responsible Federal Budget, analyzing CBO's February 2026 baseline, identified the debt spiral risk: the average interest rate paid on the national debt could exceed the economic growth rate starting in fiscal year 2031. When the interest rate on debt exceeds the growth rate of the economy, debt compounds faster than the economy can grow. This is a mathematically self-reinforcing dynamic from which recovery requires either significant revenue increases, significant spending cuts, or both — none of which either party has proposed at the required scale. Under the One Big Beautiful Bill Act incorporated into NBER projections, the debt-to-GDP ratio reaches 183% by 2054.</p>
+  </div>
+</section>
+
+<!-- V. DEMOGRAPHIC -->
+<section class="domain-section" id="demographic">
+  <div class="domain-header">
+    <div class="domain-number">V</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain V</div>
+      <h2 class="domain-title">The Demographic-Fiscal Trap</h2>
+      <p class="domain-verdict-line">A society not replacing itself — and every entitlement promise built on a ratio that no longer exists.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">2.7</div>
+      <div class="key-number-desc">Workers currently supporting each Social Security recipient. In 1960 it was 5.1. Every entitlement promise rests on this collapsing ratio.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Total fertility rate</span><span class="sd-status">🔴 1.62 (need 2.10)</span></div>
+      <div class="sd-row"><span class="sd-metric">Social Security trust fund</span><span class="sd-status">🔴 Depletes 2033</span></div>
+      <div class="sd-row"><span class="sd-metric">Medicare hospital fund</span><span class="sd-status">🔴 Depletes 2031</span></div>
+      <div class="sd-row"><span class="sd-metric">Worker-to-retiree ratio</span><span class="sd-status">🔴 2.7 (was 5.1)</span></div>
+      <div class="sd-row"><span class="sd-metric">Marriage rate</span><span class="sd-status">🔴 Historic low</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">Fertility Rates — International Comparison</div>
+    <table class="comp-table">
+      <thead><tr><th>Country</th><th>Total Fertility Rate</th><th>Below Replacement?</th><th>Fiscal Risk</th></tr></thead>
+      <tbody>
+        <tr><td>Replacement rate</td><td class="td-green">2.10</td><td>—</td><td class="td-dim">Baseline</td></tr>
+        <tr><td>France</td><td class="td-amber">1.68</td><td class="td-amber">Yes</td><td class="td-amber">Moderate</td></tr>
+        <tr><td>United States</td><td class="td-red">1.62</td><td class="td-red">Yes</td><td class="td-red">High</td></tr>
+        <tr><td>Germany</td><td class="td-red">1.46</td><td class="td-red">Yes</td><td class="td-red">High</td></tr>
+        <tr><td>Japan</td><td class="td-red">1.20</td><td class="td-red">Yes</td><td class="td-red">Critical — in crisis</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>US fertility rate of 1.62 has been below the 2.1 replacement level for decades — the population is not replacing itself</li>
+      <li>Social Security trust fund projected depleted by 2033 — benefits would automatically cut by ~23% under current law at that point</li>
+      <li>Medicare hospital trust fund faces depletion by 2031</li>
+      <li>The worker-to-retiree ratio collapsed from 5.1 in 1960 to 2.7 today — the fiscal math of every entitlement was designed for a demographic reality that no longer exists</li>
+      <li>Young Americans report wanting children but being economically unable to act on that desire — this is a policy-generated barrier not a values shift</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The demographic-fiscal trap is the slow-motion catastrophe that makes every other number in this index worse. Social Security and Medicare were designed for a demographic reality in which 5+ workers supported each retiree. That reality has not existed for decades. The ratio stands at 2.7 today and continues falling. The actuarial math is not a projection or a model. It is arithmetic.</p>
+    <p>The Social Security Administration's trustees report projects trust fund depletion by 2033. At that point, under current law, benefits would automatically cut by approximately 23%. Medicare's hospital trust fund faces depletion by 2031. These are not political predictions. They are the official projections of the agencies administering the programs. Neither party has proposed reforms commensurate with the scale of the problem.</p>
+    <p>The family formation crisis is both a demographic problem and a social capital problem. Marriage rates and birth rates are at historic lows simultaneously. Polling consistently shows young Americans desire children at rates higher than they are having them — the gap between desired and actual fertility is filled with documented economic barriers: housing unaffordability, student debt, wage stagnation, and the collapse of the cultural and religious frameworks that historically supported family formation. This is not a values shift. It is an economic barrier with a values consequence. A civilization that does not replace itself is making a choice about its future — even if that choice is being made through accumulating economic constraint rather than deliberate cultural decision.</p>
+  </div>
+</section>
+
+<!-- VI. CORRUPTION -->
+<section class="domain-section" id="corruption">
+  <div class="domain-header">
+    <div class="domain-number">VI</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain VI</div>
+      <h2 class="domain-title">Political Corruption</h2>
+      <p class="domain-verdict-line">Congressional insider trading and market manipulation — documented, bipartisan, structurally protected.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">$218</div>
+      <div class="key-number-desc">Average STOCK Act fine for late disclosure of congressional trades potentially made on privileged legislative information. Two hundred and eighteen dollars.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Congressional trading vs. market</span><span class="sd-status">🔴 Statistically anomalous</span></div>
+      <div class="sd-row"><span class="sd-metric">STOCK Act prosecutions</span><span class="sd-status">🔴 Essentially zero</span></div>
+      <div class="sd-row"><span class="sd-metric">Top 1% stock ownership</span><span class="sd-status">🔴 ~54% of all equity</span></div>
+      <div class="sd-row"><span class="sd-metric">Revolving door</span><span class="sd-status">🔴 Structural / bipartisan</span></div>
+      <div class="sd-row"><span class="sd-metric">Bottom 50% stock ownership</span><span class="sd-status">🔴 ~1%</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">Who Owns the Stock Market</div>
+    <table class="comp-table">
+      <thead><tr><th>Wealth Group</th><th>Share of Publicly Traded Equity</th><th>Fed QE Benefit</th></tr></thead>
+      <tbody>
+        <tr><td>Top 1%</td><td class="td-red">~54%</td><td class="td-red">Primary beneficiary</td></tr>
+        <tr><td>Top 10%</td><td class="td-amber">~89%</td><td class="td-amber">Major beneficiary</td></tr>
+        <tr><td>Bottom 50%</td><td class="td-dim">~1%</td><td class="td-dim">Near zero benefit</td></tr>
+        <tr><td>Median household</td><td class="td-dim">Near zero direct</td><td class="td-dim">Inflation instead</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>Academic research documents congressional portfolios outperforming market benchmarks at rates inconsistent with skill or luck — both parties equally</li>
+      <li>Early 2020: multiple senators from both parties sold significant stock holdings after classified COVID briefings — before the public market collapse</li>
+      <li>The STOCK Act average fine is $218 — zero meaningful prosecutions in its history</li>
+      <li>Members sit on committees regulating industries in which they hold personal investments — structural not incidental</li>
+      <li>Federal Reserve quantitative easing inflated asset prices — the top 1% own 54% of all stock — this is primarily a wealth transfer to that group</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The documented pattern of congressional trading that has statistically outperformed market benchmarks is not a partisan issue. Academic research covering members of both parties has found returns inconsistent with ordinary investment skill or random chance. The structural explanation is available in public disclosure records: members of Congress sit on the committees that write the legislation affecting the industries in which they hold personal investments. This is not a conflict of interest that occasionally produces problematic outcomes. It is a conflict of interest that is the routine operating condition of the legislative process.</p>
+    <p>The STOCK Act was passed in 2012 specifically to prevent trading on non-public legislative information. Its average fine for disclosure violations is $218. It has produced essentially zero meaningful prosecutions in its history. The bipartisan resistance to strengthening it — which would require members of both parties to forgo a documented source of above-market returns — explains its toothlessness more completely than any other factor.</p>
+    <p>The Federal Reserve's quantitative easing programs — $4+ trillion in asset purchases between 2008 and 2022 — inflated equity and real estate prices. The top 1% of households own approximately 54% of all publicly traded equity. The bottom 50% own approximately 1%. When QE inflated asset prices, it primarily transferred wealth to the top 10% of households. When it ended and rates rose, the same households most exposed to rising mortgage rates — those with variable rate debt or those priced out of ownership during the QE period — bore the primary cost. This is not a conspiracy. It is the documented mechanical consequence of using asset price inflation as the primary monetary transmission mechanism in an economy with extreme wealth concentration.</p>
+  </div>
+</section>
+
+<!-- VII. TRUST -->
+<section class="domain-section" id="trust">
+  <div class="domain-header">
+    <div class="domain-number">VII</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain VII</div>
+      <h2 class="domain-title">Institutional Trust</h2>
+      <p class="domain-verdict-line">2% great confidence in elected officials. Earned through decades of documented betrayal. Not irrational cynicism.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">2%</div>
+      <div class="key-number-desc">Americans with "great confidence" that elected officials will act in the public interest. (Pew Research) This is accurate pattern recognition — not cynicism.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Presidential approval (May 2026)</span><span class="sd-status">🔴 34–39%</span></div>
+      <div class="sd-row"><span class="sd-metric">Right track / wrong track</span><span class="sd-status">🔴 ~33% right</span></div>
+      <div class="sd-row"><span class="sd-metric">Congress confidence</span><span class="sd-status">🔴 7%</span></div>
+      <div class="sd-row"><span class="sd-metric">CDC/FDA trust</span><span class="sd-status">🔴 Below 50%</span></div>
+      <div class="sd-row"><span class="sd-metric">Media trust (great deal)</span><span class="sd-status">🔴 6%</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">Institutional Trust Collapse — Multi-Source Polling</div>
+    <table class="comp-table">
+      <thead><tr><th>Institution</th><th>Trust / Confidence</th><th>Change</th><th>Partisan?</th></tr></thead>
+      <tbody>
+        <tr><td>Elected officials (great confidence)</td><td class="td-red">2%</td><td class="td-red">↓ 8pts / 1 year</td><td>Bipartisan</td></tr>
+        <tr><td>Congress (great deal / quite a lot)</td><td class="td-red">7%</td><td class="td-red">Historic low</td><td>Bipartisan</td></tr>
+        <tr><td>Presidency</td><td class="td-red">23%</td><td class="td-red">↓ 15pts / 1 year</td><td>Partisan</td></tr>
+        <tr><td>CDC / FDA core functions</td><td class="td-red">Below 50%</td><td class="td-red">Bipartisan collapse</td><td>Bipartisan</td></tr>
+        <tr><td>News media (great deal)</td><td class="td-red">6%</td><td class="td-red">Near historic low</td><td>Bipartisan</td></tr>
+        <tr><td>Higher education</td><td class="td-amber">36%</td><td class="td-red">↓ 21pts / 8 years</td><td>Partially partisan</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>2% great confidence in elected officials — 23% have no confidence at all — up 8 points in a single year</li>
+      <li>Two-thirds say the country is on the wrong track — structural, not cyclical, persisting across multiple administrations</li>
+      <li>CDC and FDA trust collapsed below 50% and is now bipartisan — when both parties distrust the same institution it is an institutional verdict not a political one</li>
+      <li>The Epstein prosecutorial failure, COVID institutional decisions, opioid regulatory capture, food industry influence — the same pattern repeated</li>
+      <li>The 2% number is the population correctly reading its situation — treating it as a misinformation problem rather than an accurate assessment is itself a form of institutional failure</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The 2% confidence figure is the most consequential number in this entire index — not because it is the most dramatic, but because it identifies the structural condition that makes every other crisis on this list effectively unaddressable through normal channels. You cannot run a public health campaign through institutions that 62% of the public distrusts. You cannot address food supply contamination through a regulatory system the food industry shapes. You cannot reform congressional trading through a body that profits from it. Without institutional trust, even correct diagnoses have no credible channel through which to become policy.</p>
+    <p>The collapse is bipartisan — which is the critical distinction. Partisan distrust of institutions is normal in a polarized democracy. When Republicans distrust institutions under Democratic presidents and Democrats distrust institutions under Republican presidents, the trust collapses and recovers with electoral cycles. What is now occurring is different: both parties distrust the same institutions simultaneously. The CDC and FDA trust collapse is not partisan. It is an institutional verdict delivered by the population across party lines. This does not reverse with an election. It reverses only with documented institutional performance change — which requires institutional trust to implement.</p>
+    <p>The Epstein case deserves treatment as an institutional case study rather than as tabloid material. The 2008 non-prosecution agreement engineered by Alexander Acosta — which gave Epstein and unnamed co-conspirators immunity from federal prosecution — is documented in court proceedings. Flight logs, civil settlement records, released Maxwell trial documents, and convicted parties establish a pattern of powerful men being protected from consequences that would fall on ordinary citizens. The specific mechanism — prosecutorial discretion exercised in favor of the wealthy and connected — is the same mechanism that produces the congressional insider trading immunity, the pharmaceutical company non-prosecution, and the food industry regulatory capture. It is one pattern operating across many domains. The population has correctly identified it. The 2% represents that identification.</p>
+  </div>
+</section>
+
+<!-- VIII. INFORMATION -->
+<section class="domain-section" id="information">
+  <div class="domain-header">
+    <div class="domain-number">VIII</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain VIII</div>
+      <h2 class="domain-title">The Information Ecosystem</h2>
+      <p class="domain-verdict-line">The shared factual baseline required for collective self-governance no longer exists at population scale.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">2,500+</div>
+      <div class="key-number-desc">Local newspapers closed since 2005. Communities now without accountability journalism. Local government operating without scrutiny.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Corporations controlling US media</span><span class="sd-status">🔴 ~6 (was 50 in 1983)</span></div>
+      <div class="sd-row"><span class="sd-metric">Local papers closed since 2005</span><span class="sd-status">🔴 2,500+</span></div>
+      <div class="sd-row"><span class="sd-metric">Journalism trust (great deal)</span><span class="sd-status">🔴 6%</span></div>
+      <div class="sd-row"><span class="sd-metric">Algorithmic amplification model</span><span class="sd-status">🔴 Outrage = revenue</span></div>
+      <div class="sd-row"><span class="sd-metric">Shared factual baseline</span><span class="sd-status">🔴 Does not exist</span></div>
+    </div>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>Six corporations control approximately 90% of what Americans see, hear, and read — this is not a free press in any meaningful structural sense</li>
+      <li>The advertising model structurally incentivizes outrage over accuracy — conflict and fear drive engagement which drives revenue</li>
+      <li>Algorithmic amplification selects for the most emotionally activating content regardless of truth value</li>
+      <li>2,500+ local papers closed — local government, courts, and school boards now largely operate without journalistic scrutiny</li>
+      <li>You cannot govern a democracy without a shared information commons — that commons no longer exists at the required scale</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The information ecosystem is infrastructure — the same way roads and water systems are infrastructure — because a functioning democracy requires a shared factual baseline from which collective problem-solving can proceed. The collapse of that baseline is not primarily a social media story. It is a structural story about ownership concentration, incentive misalignment, and the systematic elimination of the accountability journalism layer that historically connected local communities to the facts of their own governance.</p>
+    <p>In 1983, 50 companies controlled the majority of US media. By 2000 that number had contracted to 6. That consolidation has continued. Six corporations now control approximately 90% of what Americans see, hear, and read. This is not a free press in any meaningful structural sense. It is a corporate press that has the formal protections of a free press and the operational incentives of an advertising business — incentives that structurally favor conflict, fear, and tribal identity over accuracy, complexity, and accountability.</p>
+    <p>The internal research at major social platforms — documented in congressional testimony and investigative reporting — shows that recommendation algorithms select for the most emotionally activating content regardless of its truth value. The platforms' own researchers identified this dynamic, in some cases proposed corrections, and were overruled by business units. The reason is straightforward: emotional activation drives engagement, engagement drives time on platform, time on platform drives advertising revenue. Accuracy is not a metric in this equation. The downstream consequence is a population that receives information optimized for its emotional activation rather than its accuracy — and then cannot form the shared factual baseline from which collective problem-solving would need to proceed.</p>
+  </div>
+</section>
+
+<!-- IX. EDUCATION -->
+<section class="domain-section" id="education">
+  <div class="domain-header">
+    <div class="domain-number">IX</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain IX</div>
+      <h2 class="domain-title">Education</h2>
+      <p class="domain-verdict-line">The credential trap and the vocational betrayal — $1.77 trillion in debt for credentials AI is deprecating.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">$1.77T</div>
+      <div class="key-number-desc">Total student loan debt outstanding. Borrowed to acquire credentials whose labor market value is being systematically eroded by AI at the exact moment the debt comes due.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Student debt total</span><span class="sd-status">🔴 $1.77 trillion</span></div>
+      <div class="sd-row"><span class="sd-metric">K-12 vs. OECD peers</span><span class="sd-status">🔴 Below average math/sci</span></div>
+      <div class="sd-row"><span class="sd-metric">Vocational training</span><span class="sd-status">🔴 Defunded 30 years</span></div>
+      <div class="sd-row"><span class="sd-metric">Gen Z: AI devalued degree</span><span class="sd-status">🔴 49% say yes</span></div>
+      <div class="sd-row"><span class="sd-metric">Liberal arts ROI</span><span class="sd-status">🔴 Often negative</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">College Degree vs. Trade Career — Cost / Outcome Comparison</div>
+    <table class="comp-table">
+      <thead><tr><th>Path</th><th>4-yr Cost</th><th>Starting Salary</th><th>AI Risk</th><th>Debt</th></tr></thead>
+      <tbody>
+        <tr><td>Liberal arts degree</td><td class="td-red">$120–200K</td><td class="td-red">$35–50K</td><td class="td-red">High</td><td class="td-red">Yes</td></tr>
+        <tr><td>STEM degree</td><td class="td-amber">$120–200K</td><td class="td-amber">$65–90K</td><td class="td-amber">Moderate-High</td><td class="td-red">Yes</td></tr>
+        <tr><td>Electrician apprenticeship</td><td class="td-green">$0–10K</td><td class="td-green">$55–75K</td><td class="td-green">Low</td><td class="td-green">No</td></tr>
+        <tr><td>Plumber apprenticeship</td><td class="td-green">$0–10K</td><td class="td-green">$55–80K</td><td class="td-green">Low</td><td class="td-green">No</td></tr>
+        <tr><td>HVAC technician</td><td class="td-green">$5–15K</td><td class="td-green">$50–75K</td><td class="td-green">Low</td><td class="td-green">Minimal</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>$1.77 trillion in student debt — a generational wealth transfer upward from borrowers to financial institutions facilitated by government guarantee</li>
+      <li>Thirty years of pushing students toward college while defunding vocational training created a tradespeople shortage and a white-collar surplus — in exactly the roles AI displaces first</li>
+      <li>49% of Gen Z job seekers say AI has already diminished the value of their college education — before most have paid off their loans</li>
+      <li>K-12 outcomes have declined relative to peer nations — US students rank below average in OECD math and science</li>
+      <li>The workers most derided for choosing trades over college are currently the most economically resilient — the market is correcting what the culture got wrong</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The US education system has produced two distinct but reinforcing failures. The first is the K-12 outcome decline — US students ranking below average among OECD nations in mathematics and science, despite education spending that ranks among the highest per-pupil globally. The spending-outcomes gap is not a funding problem. It is a structural and governance problem in which the incentives of teachers unions, administrators, textbook publishers, and testing companies have been prioritized over student outcomes for decades.</p>
+    <p>The second failure is the higher education credential trap. The government guarantee structure — which allows students to borrow unlimited amounts for any accredited program regardless of labor market outcomes — removed the market discipline that would otherwise have constrained tuition inflation and forced accountability for graduate employment outcomes. Universities responded rationally to their incentive structure: they raised tuition, expanded administrative overhead, and marketed credentials whose labor market value was uncertain or declining. The $1.77 trillion in outstanding student debt is the balance sheet of this structural misalignment.</p>
+    <p>The AI dimension compounds both failures. A generation borrowed heavily to acquire the white-collar credentials that AI is now displacing — writing, editing, coding, analysis, administration — before the loans are paid off. 49% of Gen Z job seekers report that AI has already diminished the value of their college education. This is not technophobia. It is an accurate assessment of the labor market they are entering. The vocational betrayal — the thirty-year cultural campaign that derided trade careers as lesser paths while defunding the programs that would have enabled them — now looks like it systematically directed a generation toward the highest AI-displacement-risk roles while hollowing out the lowest.</p>
+  </div>
+</section>
+
+<!-- X. MENTAL HEALTH -->
+<section class="domain-section" id="mental">
+  <div class="domain-header">
+    <div class="domain-number">X</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain X</div>
+      <h2 class="domain-title">Mental Health & Wellbeing</h2>
+      <p class="domain-verdict-line">A structural public health crisis — not a mood story. 27 million fewer Americans are thriving than four years ago.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">27 million</div>
+      <div class="key-number-desc">Fewer Americans are thriving today compared to four years ago. This is a measured population-level decline — not a poll artifact. (Gallup National Health and Well-Being Index)</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Thriving rate</span><span class="sd-status">🔴 48.9% — below 50%</span></div>
+      <div class="sd-row"><span class="sd-metric">Future life optimism</span><span class="sd-status">🔴 Record low 2008–2026</span></div>
+      <div class="sd-row"><span class="sd-metric">Gen Z excellent mental health</span><span class="sd-status">🔴 23% (−15pts since 2019)</span></div>
+      <div class="sd-row"><span class="sd-metric">Millennial excellent MH</span><span class="sd-status">🔴 28% (−15pts since 2019)</span></div>
+      <div class="sd-row"><span class="sd-metric">US youth vs. global peers</span><span class="sd-status">🔴 Declining while peers improve</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">Mental Health Decline by Generation Since 2019 (Gallup)</div>
+    <table class="comp-table">
+      <thead><tr><th>Generation</th><th>Decline Since 2019</th><th>Current % Excellent</th><th>Severity</th></tr></thead>
+      <tbody>
+        <tr><td>Gen Z (born 1997–2012)</td><td class="td-red">−15 points</td><td class="td-red">23%</td><td class="td-red">Severe</td></tr>
+        <tr><td>Millennials (born 1981–1996)</td><td class="td-red">−15 points</td><td class="td-red">28%</td><td class="td-red">Severe</td></tr>
+        <tr><td>Gen X (born 1965–1980)</td><td class="td-amber">−11 points</td><td class="td-amber">~34%</td><td class="td-amber">Significant</td></tr>
+        <tr><td>Baby Boomers</td><td class="td-dim">Smaller decline</td><td class="td-dim">Higher baseline</td><td class="td-dim">Moderate</td></tr>
+        <tr><td>Silent Generation</td><td class="td-dim">Smaller decline</td><td class="td-dim">Higher baseline</td><td class="td-dim">Moderate</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>Thriving rate dropped below 50% for the first time since COVID — 27 million fewer Americans are thriving now than four years ago</li>
+      <li>Gen Z and Millennial excellent mental health down 15 points since 2019 — the largest generational decline ever measured</li>
+      <li>American youth wellbeing is declining while improving in most comparable countries — this is a specifically American phenomenon not a global generational trend</li>
+      <li>Full causal picture: economic precarity, family breakdown, loss of religious community, food supply effects, and collapse of traditional adult life markers — not just social media</li>
+      <li>Only 19% of workers globally were fully engaged on the job in 2025 — 80%+ are going through the motions</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>Gallup's National Health and Well-Being Index data presents a consistent and deteriorating picture across every major metric of American psychological health. The thriving rate — the percentage of Americans evaluating their lives well enough to be considered thriving — stood at 48.9% in Q1 2025, below 50% for the first time since spring 2020. Since reaching a record high of 59.2% in June 2021, the thriving rate has shed over 10 percentage points. This projects to an estimated 27 million fewer Americans who are thriving now compared with four years ago.</p>
+    <p>The generation-specific data is where the structural crisis becomes most visible. Over the six years since 2019, the percentage of Gen Z adults reporting excellent mental health has declined by approximately 15 points. The same 15-point decline has occurred among Millennials. This is not a mood fluctuation. This is a measured, documented, sustained, generation-specific deterioration in self-reported psychological health that has no precedent in the Gallup measurement history.</p>
+    <p>The causal picture requires intellectual honesty that the social media narrative alone does not provide. Social media is a contributor. But the full range of documented causal candidates must be assessed: the economic precarity that makes traditional adult life markers — stable employment, homeownership, marriage, children — structurally inaccessible for millions of young Americans; the breakdown of family structure that provides the primary social support network; the decline of religious and civic community that historically provided belonging, purpose, and mutual aid; the food supply effects on physical and neurological health; and the AI-driven existential uncertainty about the value of education and career. These are not mood factors. They are structural conditions with measurable psychological consequences.</p>
+  </div>
+</section>
+
+<!-- XI. SOCIAL CAPITAL -->
+<section class="domain-section" id="social">
+  <div class="domain-header">
+    <div class="domain-number">XI</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain XI</div>
+      <h2 class="domain-title">Social Capital & Community</h2>
+      <p class="domain-verdict-line">The connective tissue of collective response has dissolved — and nothing has replaced it.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">50%</div>
+      <div class="key-number-desc">For the first time in American history, fewer than half of Americans report regular religious service attendance. Religious institutions were the primary providers of social capital, mutual aid, and community belonging. Their decline is a social infrastructure story.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Religious attendance</span><span class="sd-status">🔴 Below 50% first time</span></div>
+      <div class="sd-row"><span class="sd-metric">Civic association membership</span><span class="sd-status">🔴 Collapsed since 1960s</span></div>
+      <div class="sd-row"><span class="sd-metric">Loneliness epidemic</span><span class="sd-status">🔴 Surgeon General declared</span></div>
+      <div class="sd-row"><span class="sd-metric">Know neighbors rate</span><span class="sd-status">🔴 Historic generation low</span></div>
+      <div class="sd-row"><span class="sd-metric">Volunteering rates</span><span class="sd-status">🔴 Multi-decade decline</span></div>
+    </div>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>Robert Putnam's Bowling Alone documented the collapse of civic association beginning in the 1960s — that collapse has continued and accelerated for sixty years</li>
+      <li>The Surgeon General declared loneliness and social isolation a public health epidemic — the health effects of chronic loneliness are equivalent to smoking 15 cigarettes per day</li>
+      <li>Religious participation below 50% for the first time — removing the primary historical provider of community belonging, mutual aid, and shared moral framework</li>
+      <li>Without social capital, every crisis must route through centralized institutions — the same ones with 2% public confidence ratings</li>
+      <li>This creates a trap: the decentralized response infrastructure has dissolved, and the centralized replacement has lost the trust required to function</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>Social capital is the connective tissue that allows communities to respond to crises without routing everything through centralized institutions. It is built through repeated face-to-face interaction, shared purpose, mutual obligation, and trust developed over time in the context of specific relationships. Robert Putnam documented its collapse in Bowling Alone, published in 2000. That collapse has continued and accelerated in the twenty-six years since. The civic associations, fraternal organizations, labor unions, neighborhood groups, and service clubs that once provided the infrastructure for decentralized collective action have hollowed out across nearly every community type.</p>
+    <p>Religious institutions deserve special treatment here — not as a theological matter but as a social infrastructure matter. For most of American history, religious congregations were the primary providers of community belonging, mutual aid networks, shared moral frameworks, and the regular face-to-face interaction that builds trust between neighbors. No government program has successfully replicated any of these functions at scale. The decline of religious participation below 50% for the first time in American history does not represent freedom from something. It represents the removal of documented social infrastructure whose absence has measurable wellbeing consequences — documented in the Gallup data on social support as a wellbeing predictor and in the Surgeon General's declaration of loneliness as a public health epidemic.</p>
+    <p>The structural trap this creates is significant: the crises documented in this index require collective response. Collective response requires either social capital — the decentralized community infrastructure that allows people to organize and act together — or institutional trust — the confidence that centralized institutions will act competently in the public interest. This index documents that social capital has collapsed and institutional trust has collapsed simultaneously. The result is a population that can accurately diagnose its situation but lacks both the decentralized infrastructure and the institutional confidence to address it.</p>
+  </div>
+</section>
+
+<!-- XII. AI -->
+<section class="domain-section" id="ai">
+  <div class="domain-header">
+    <div class="domain-number">XII</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain XII</div>
+      <h2 class="domain-title">Artificial Intelligence</h2>
+      <p class="domain-verdict-line">Economic displacement — and the existential question of human purpose — arriving simultaneously.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">93% → 43%</div>
+      <div class="key-number-desc">The collapse in job search intent in a single year. More than half the workforce stopped believing the search was worth conducting. The behavioral signature of mass disengagement.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">US workers fearing AI job loss</span><span class="sd-status">🔴 60% (was 28% 2 yrs ago)</span></div>
+      <div class="sd-row"><span class="sd-metric">Direct AI job eliminations 2025</span><span class="sd-status">🔴 55K / 12× increase</span></div>
+      <div class="sd-row"><span class="sd-metric">Software devs 22–25 employment</span><span class="sd-status">🔴 −20% from 2022 peak</span></div>
+      <div class="sd-row"><span class="sd-metric">Worker engagement globally</span><span class="sd-status">🔴 19% fully engaged</span></div>
+      <div class="sd-row"><span class="sd-metric">Gen Z: AI devalued education</span><span class="sd-status">🔴 49%</span></div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap">
+    <div class="comparison-title">AI Displacement Risk by Sector</div>
+    <table class="comp-table">
+      <thead><tr><th>Sector</th><th>AI Risk</th><th>Near-Term Outlook</th></tr></thead>
+      <tbody>
+        <tr><td>White-collar admin / clerical</td><td class="td-red">Very High</td><td class="td-red">Actively displacing now</td></tr>
+        <tr><td>Writing / editing / translation</td><td class="td-red">Very High</td><td class="td-red">Already underway</td></tr>
+        <tr><td>Entry-level software / coding</td><td class="td-red">High</td><td class="td-red">−20% employment 22–25</td></tr>
+        <tr><td>Middle management</td><td class="td-red">High</td><td class="td-amber">Hierarchy flattening</td></tr>
+        <tr><td>Healthcare (clinical)</td><td class="td-amber">Moderate</td><td class="td-amber">Augmentation likely</td></tr>
+        <tr><td>Skilled trades (electrical etc.)</td><td class="td-green">Low</td><td class="td-green">Physical presence required</td></tr>
+        <tr><td>Construction / physical labor</td><td class="td-green">Low</td><td class="td-green">Near-term resistant</td></tr>
+        <tr><td>Emergency services</td><td class="td-green">Low</td><td class="td-green">Human judgment essential</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>60% of American workers concerned about AI's impact on employment — up from 28% two years ago — doubling in 24 months</li>
+      <li>55,000 jobs directly eliminated by AI in 2025 — a 12-fold increase from 2023 — and the trend is accelerating</li>
+      <li>Software developers aged 22–25 experienced nearly 20% employment decline from their 2022 peak — the career ladder is being severed at its base</li>
+      <li>Skilled trade workers face the lowest AI displacement risk — the population most derided for not going to college is currently most economically resilient</li>
+      <li>AIRD (AI Replacement Dysfunction) has been proposed as a formal clinical construct — technostress correlates with documented increases in anxiety and depression</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The AI displacement crisis has two dimensions that must be assessed separately. The first is economic — the documented and accelerating elimination of roles, the disruption of the career ladder at its entry point, the specific vulnerability of credentialed white-collar workers in exactly the roles AI targets first. The second is existential — the question of what human beings are for in an economy where machine capability is expanding faster than the cultural, educational, and political systems can process.</p>
+    <p>The economic dimension is measurable. 55,000 jobs directly eliminated by AI in 2025 represents a 12-fold increase from 2023. Software developers aged 22–25 experienced a nearly 20% employment decline from their 2022 peak. The career ladder is being severed at its base — without entry-level roles providing foundational experience, the pipeline through which workers develop the expertise to fill senior roles is disrupted. Anthropic CEO Dario Amodei has stated publicly that AI could eliminate half of all entry-level white-collar jobs within one to four years. The IMF estimates 60% of jobs in advanced economies are already exposed to AI. These are not theoretical projections from people hostile to the technology. They are assessments from people building it.</p>
+    <p>The existential dimension requires honest assessment rather than techno-optimist reassurance. Work provides not just income but structure, identity, social belonging, and a sense of competence and contribution. Viktor Frankl's clinical observation — that human beings can endure almost any suffering if they understand its meaning, but cannot endure purposelessness — describes the specific character of the AI threat with precision. The fear driving the displacement anxiety numbers is not primarily fear of poverty. It is fear of a world in which human effort and human contribution are structurally unnecessary. Psychiatrists at the University of Florida have proposed a formal clinical construct — Artificial Intelligence Replacement Dysfunction (AIRD) — to describe the psychological and existential distress of individuals facing this threat. That a clinical community is proposing new diagnostic categories for this experience is itself an indicator of its scale and seriousness.</p>
+  </div>
+</section>
+
+<!-- XIII. OPIOIDS -->
+<section class="domain-section" id="opioid">
+  <div class="domain-header">
+    <div class="domain-number">XIII</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain XIII</div>
+      <h2 class="domain-title">Opioid & Fentanyl Crisis</h2>
+      <p class="domain-verdict-line">500,000+ dead since 1999. A slow-motion mass casualty event continuing across five administrations of both parties.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">500,000+</div>
+      <div class="key-number-desc">Americans dead of opioid overdose since 1999. A death toll exceeding US combat deaths in World War II — continuing unresolved across five presidential administrations of both parties.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">Annual overdose deaths</span><span class="sd-status">🔴 100,000+ annually</span></div>
+      <div class="sd-row"><span class="sd-metric">Fentanyl in drug supply</span><span class="sd-status">🔴 Now nearly universal</span></div>
+      <div class="sd-row"><span class="sd-metric">Sackler family extraction</span><span class="sd-status">🔴 ~$11B before bankruptcy</span></div>
+      <div class="sd-row"><span class="sd-metric">Communities permanently damaged</span><span class="sd-status">🔴 Workforce / family formation</span></div>
+      <div class="sd-row"><span class="sd-metric">Regulatory accountability</span><span class="sd-status">🔴 Functionally absent</span></div>
+    </div>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>Over 100,000 Americans die of drug overdoses annually — the majority now involving fentanyl, 50–100 times more potent than morphine</li>
+      <li>The pharmaceutical chapter is a documented case of regulatory capture enabling mass death — Purdue Pharma knew, the FDA process failed, both were documented in court</li>
+      <li>Fentanyl's supply chain runs from Chinese precursor chemicals through Mexican cartels — an international supply problem with no current domestic solution</li>
+      <li>The communities most devastated have experienced permanent damage to workforce participation, family formation, and civic capacity</li>
+      <li>The Sackler family extracted approximately $11 billion from Purdue Pharma before bankruptcy — the financial beneficiaries of the crisis largely escaped accountability</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>The opioid and fentanyl crisis is primarily an institutional failure story. The pharmaceutical chapter is documented in court proceedings from the Purdue Pharma litigation, congressional testimony, and investigative reporting: Purdue Pharma's own internal documents show the company knew OxyContin's addiction risk was significantly higher than represented to prescribers and regulators. The FDA approval process failed to catch or act on this. The distribution chain — pharmaceutical distributors who shipped hundreds of millions of pills to communities whose pharmacies could not possibly have had legitimate patients to receive them — operated within a regulatory framework that did not treat volume as a warning sign until the death toll was undeniable.</p>
+    <p>The Sackler family extracted approximately $11 billion from Purdue Pharma before the company entered bankruptcy in 2019. The bankruptcy proceedings and subsequent settlement — which shielded family members from personal liability in exchange for a payment that represented a fraction of what was extracted — is itself a documented case of the legal system treating financial liability differently for those with sufficient resources to navigate it. The financial beneficiaries of the crisis that killed 500,000 Americans emerged largely intact. This is part of the institutional pattern that explains the 2% confidence number.</p>
+    <p>The community-level consequences compound every other domain in this index. The communities most devastated by the opioid crisis experienced permanent damage to workforce participation — a documented reduction in labor force participation that predates and extends beyond the acute overdose statistics. Family formation collapsed in affected communities. Civic capacity was destroyed. These are not recoverable in the short term regardless of what policy changes occur. They represent a permanent subtraction from the social and economic capacity of hundreds of communities that has never been honestly accounted for in the public discourse about the crisis.</p>
+  </div>
+</section>
+
+<!-- XIV. INFRASTRUCTURE -->
+<section class="domain-section" id="infrastructure">
+  <div class="domain-header">
+    <div class="domain-number">XIV</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain XIV</div>
+      <h2 class="domain-title">Infrastructure</h2>
+      <p class="domain-verdict-line">Physical decay — the governance failure made visible in concrete and steel.</p>
+    </div>
+  </div>
+
+  <div class="glance-layer">
+    <div class="key-number-block">
+      <div class="key-number-label">Key Number</div>
+      <div class="key-number-value">42,000+</div>
+      <div class="key-number-desc">Bridges currently rated structurally deficient by the Federal Highway Administration. Millions of Americans cross them daily. These are not hypothetical risks — they are current ratings.</div>
+    </div>
+    <div class="section-dashboard">
+      <div class="sd-header">Section Dashboard</div>
+      <div class="sd-row"><span class="sd-metric">ASCE Infrastructure Report Card</span><span class="sd-status">🔴 C− overall</span></div>
+      <div class="sd-row"><span class="sd-metric">Structurally deficient bridges</span><span class="sd-status">🔴 42,000+</span></div>
+      <div class="sd-row"><span class="sd-metric">Lead pipe water systems</span><span class="sd-status">🔴 Millions still affected</span></div>
+      <div class="sd-row"><span class="sd-metric">Grid reliability</span><span class="sd-status">🔴 Major outages rising</span></div>
+      <div class="sd-row"><span class="sd-metric">10-year investment gap</span><span class="sd-status">🔴 $2.6T (ASCE)</span></div>
+    </div>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">30-Second Summary</div>
+    <ul class="bullet-list">
+      <li>ASCE gives US infrastructure a C− — barely passing — with roads, bridges, water systems, and the power grid all showing significant deterioration</li>
+      <li>42,000+ structurally deficient bridges — millions of Americans cross them daily</li>
+      <li>Millions still served by water systems with lead pipes — Flint was a visible symptom of a national condition not an isolated incident</li>
+      <li>The power grid's major weather event failure frequency is increasing — peer nations do not experience cascading outages at comparable rates</li>
+      <li>The $2.6 trillion investment gap over 10 years represents money the government does not have given the fiscal trajectory in Domain IV</li>
+    </ul>
+  </div>
+
+  <button class="depth-toggle" onclick="toggleDepth(this)">
+    <span class="depth-toggle-label">Full Analytical Narrative</span>
+    <span class="depth-toggle-icon">+</span>
+  </button>
+  <div class="depth-content">
+    <p>Infrastructure decay is the physical manifestation of a political system that systematically discounts long-term collective investment in favor of short-term political incentives. Roads, bridges, water systems, the electrical grid, and wastewater treatment do not produce ribbon-cutting moments on the maintenance schedule. They produce catastrophic failures — collapses, contamination events, cascading blackouts — when the maintenance that was deferred long enough finally comes due. The political incentive structure systematically prefers the ribbon-cutting to the maintenance until the failure becomes unavoidable.</p>
+    <p>The American Society of Civil Engineers' infrastructure report card assigns a C− to US infrastructure overall. Over 42,000 bridges are rated structurally deficient — not hypothetically at risk but currently rated as having significant deterioration of structural components. Millions of Americans are served by water systems with lead infrastructure — a category of contamination whose neurological effects on children are documented, permanent, and severe. The Flint crisis was not an anomaly. It was a visible instance of a condition affecting water systems across hundreds of communities whose failures were less dramatic and therefore less reported.</p>
+    <p>The fiscal interaction is direct and unresolvable under current trajectories: the infrastructure deficit requires $2.6 trillion in investment over 10 years according to ASCE. The national debt trajectory documented in Domain IV — $1 trillion in annual interest payments growing to $2.1 trillion by 2036 — removes the fiscal space that would be required to address this deficit. The political will to raise revenues or cut other spending at the scale required does not exist in either party. The physical infrastructure of the country will therefore continue to deteriorate at a pace determined by the rate at which current facilities fail, not by any rational maintenance or investment plan.</p>
+  </div>
+</section>
+
+<!-- XV. SYSTEM MAP -->
+<section class="domain-section system-map-section" id="system">
+  <div class="domain-header">
+    <div class="domain-number">XV</div>
+    <div class="domain-title-block">
+      <div class="domain-roman">Domain XV</div>
+      <h2 class="domain-title">The Compounding System</h2>
+      <p class="domain-verdict-line">Not fifteen separate problems. One self-reinforcing system. Fifteen faces.</p>
+    </div>
+  </div>
+
+  <div class="key-number-block" style="margin-bottom:2rem">
+    <div class="key-number-label">Key Number</div>
+    <div class="key-number-value">15</div>
+    <div class="key-number-desc">Independent crisis domains operating simultaneously on the same population, each reducing the resilience available to manage the others. Not separate problems. One system.</div>
+  </div>
+
+  <div class="system-map-container">
+    <div class="section-label" style="margin-bottom:1.5rem">The Compounding Loop</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Food Supply Contamination</div>
+      <div class="map-node node-critical">Infrastructure Decay</div>
+      <div class="map-node node-critical">Opioid Crisis</div>
+    </div>
+    <div class="map-label">Background multipliers feeding into ↓</div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Physical Health Degradation</div>
+      <div class="map-node node-amber">Healthcare Cost Extraction</div>
+    </div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Reduced Cognitive + Emotional Resilience</div>
+    </div>
+    <div class="map-arrow">↓↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Economic Stress</div>
+      <div class="map-node node-amber">AI Anxiety + Meaning Crisis</div>
+      <div class="map-node node-critical">Education Betrayal</div>
+    </div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Mental Health Deterioration</div>
+    </div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Workforce Disengagement</div>
+      <div class="map-node node-critical">Demographic Collapse</div>
+    </div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Reduced Tax Base + Productivity</div>
+      <div class="map-node node-critical">Entitlement Math Fails</div>
+    </div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Worsening Fiscal Trajectory</div>
+    </div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">No Fiscal Capacity for Public Response</div>
+    </div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Social Capital Collapse</div>
+      <div class="map-node node-critical">Information Ecosystem Collapse</div>
+    </div>
+    <div class="map-label">No decentralized response infrastructure + no shared factual baseline</div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">Institutional Trust Collapse</div>
+    </div>
+    <div class="map-arrow">↓</div>
+
+    <div class="map-row">
+      <div class="map-node node-critical">No Credible Channel for Collective Solution</div>
+    </div>
+    <div class="map-arrow">↺</div>
+
+    <div class="map-loop-label">LOOP CLOSES — SELF-REINFORCING</div>
+
+    <div class="map-row" style="margin-top:1rem">
+      <div class="map-node node-corruption">⚡ POLITICAL CORRUPTION — Accelerant at Every Node — Extracting Value While the Loop Tightens ⚡</div>
+    </div>
+  </div>
+
+  <div class="comparison-table-wrap" style="margin-top:2rem">
+    <div class="comparison-title">Interaction Map — How Each Domain Compounds the Others</div>
+    <table class="comp-table">
+      <thead><tr><th>Interaction</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Physical health + food supply → Resilience</td><td class="td-red">Degraded body = degraded capacity to cope with everything</td></tr>
+        <tr><td>Healthcare costs → Economic stress</td><td class="td-red">Medical events are financial catastrophes for ordinary families</td></tr>
+        <tr><td>Demographic collapse → Debt spiral</td><td class="td-red">Shrinking workforce + entitlement promises = impossible math</td></tr>
+        <tr><td>Education betrayal → AI vulnerability</td><td class="td-red">Debt-financed credentials deprecated by the displacing technology</td></tr>
+        <tr><td>Social capital collapse → Crisis response</td><td class="td-red">No community infrastructure to respond without failed institutions</td></tr>
+        <tr><td>Information collapse → Shared reality</td><td class="td-red">Cannot solve problems the population cannot collectively perceive</td></tr>
+        <tr><td>Opioid crisis → Community capacity</td><td class="td-red">Permanently damaged workforce and family formation</td></tr>
+        <tr><td>Infrastructure decay → Economic friction</td><td class="td-red">Daily cost of deteriorating systems compounds all pressure</td></tr>
+        <tr><td>Political corruption → All domains</td><td class="td-red">Extracting value while preventing reforms that would relieve pressure</td></tr>
+        <tr><td>Institutional trust collapse → Resolution</td><td class="td-red">Even correct diagnoses have no credible channel to become policy</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="summary-bullets">
+    <div class="summary-title">The Redemptive Element</div>
+    <ul class="bullet-list">
+      <li>The one potentially redemptive finding in the entire index: the population's accurate self-diagnosis</li>
+      <li>A population that correctly identifies its situation possesses the necessary precondition for collective response</li>
+      <li>The 2% confidence number, the 66% wrong-track, the 77% who say middle-class life is harder — these reflect accurate pattern recognition not irrational cynicism</li>
+      <li>A population that is deceived about its situation cannot address it — a population that sees clearly can, given the right infrastructure for collective action</li>
+      <li>The question the data cannot answer: whether accurate diagnosis will produce collective action before the compounding system reaches a threshold from which structural recovery is impossible</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<!-- VERDICT -->
+<div class="main">
+<section class="verdict-section">
+  <div class="section-label">Final Verdict</div>
+  <div class="verdict-box">
+    <p class="verdict-text">A population physically sicker than any comparable wealthy nation — eating a contaminated food supply its own government agencies now confirm is driving a chronic disease epidemic, with a herbicide in 80% of human urine samples that two authoritative scientific bodies have reached opposite conclusions about — while experiencing sustained real income loss that would require a 20% pay increase to undo, locked out of housing by the worst affordability ratio in modern history, governed by institutions in which 2% of the public has great confidence, watching its debt accumulate at $1.9 trillion per year toward a trajectory the Congressional Budget Office projects will consume all discretionary spending in interest payments by 2038, its entitlement programs built on a worker-to-retiree ratio that has collapsed from 5.1 to 2.7 and continues falling, a generation burdened with $1.77 trillion in debt for credentials AI is now depreciating, the social capital and religious community that historically enabled decentralized collective response dissolved and unreplaced, the information ecosystem consolidated into six corporations optimizing for outrage rather than accuracy, declining in mental health across every generational measure with young Americans uniquely deteriorating relative to peers in comparable countries, confronting the credible displacement of entry-level employment by artificial intelligence at a speed no previous technological transition has matched, communities permanently hollowed out by an opioid crisis whose financial beneficiaries escaped accountability, physical infrastructure rated barely passing by the engineering society responsible for assessing it, and having correctly assessed — across decades of documented betrayal including regulatory capture, bipartisan insider trading, and the systematic protection of the connected from consequences that fall on ordinary citizens — that the systems designed to protect them are not reliably operated in their interest. This is not a mood. It is a diagnosis. The question is whether accurate diagnosis arrives in time to produce collective action before the compounding loop closes permanently.</p>
+  </div>
+</section>
+</div>
+
+<footer class="site-footer">
+  <p>State of the Nation Diagnostic Index · Mid-2026 · <strong>Non-Partisan · Evidence-Based · Open Methodology</strong> · Sources: CBO · CDC · Gallup · SSA · ASCE · SEC · Peer-Reviewed Literature · No ideological filter applied in any direction · <strong>Write it as a diagnosis. ✠</strong></p>
+</footer>
+
+<script>
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progress.style.width = pct + '%';
+});
+
+const navItems = document.querySelectorAll('.nav-item');
+const sections = document.querySelectorAll('section[id]');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === '#' + id) {
+          item.classList.add('active');
+        }
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+function toggleDepth(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+}
+
+function filterDash(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const rows = document.querySelectorAll('#dashGrid .dashboard-row');
+  rows.forEach(row => {
+    if (type === 'all') {
+      row.style.display = '';
+    } else {
+      row.style.display = row.dataset.type === type ? '' : 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>
