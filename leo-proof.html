@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Leo Proof — 1891 · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #cc2200;
+  --green: #22aa44;
+  --white: #f0ece4;
+  --dim: #888880;
+  --dimmer: #444440;
+  --dimmest: #1a1a18;
+  --bg: #000000;
+  --border: #1c1c1a;
+  --serif: 'EB Garamond', Georgia, serif;
+  --mono: 'Courier Prime', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* PARALLAX HERO */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% top;
+  opacity: 0.14;
+  filter: grayscale(100%) contrast(1.1);
+}
+
+.hero-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, #000);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2rem;
+  max-width: 700px;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  margin-bottom: 2.5rem;
+}
+
+.hero-year {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: var(--dimmer);
+  margin-bottom: 1.5rem;
+}
+
+.hero-h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.hero-h1 em {
+  font-style: italic;
+  color: var(--dim);
+}
+
+.hero-sub {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--dimmer);
+  line-height: 2;
+  margin-bottom: 3rem;
+}
+
+.hero-rule {
+  width: 1px;
+  height: 80px;
+  background: var(--border);
+  margin: 0 auto 2rem;
+}
+
+.hero-scroll {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--dimmer);
+  text-transform: uppercase;
+  animation: pulse 2.5s infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* STICKY NAV */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(0,0,0,0.96);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--dimmer);
+  padding: 14px 20px 14px 0;
+  border-right: 1px solid var(--border);
+  margin-right: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav a {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  padding: 14px 12px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+  flex-shrink: 0;
+}
+.nav a:hover { color: var(--white); }
+.nav a.active { color: var(--white); border-bottom-color: var(--white); }
+
+/* MAIN CONTENT */
+.main {
+  position: relative;
+  z-index: 10;
+  background: var(--bg);
+}
+
+/* ENCYCLICAL SECTION */
+.enc {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 6rem 2rem 5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.enc-top {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.enc-numeral {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--dimmer);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.enc-year {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--dimmer);
+}
+
+.enc-english {
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.25;
+  margin-bottom: 0.3rem;
+}
+
+.enc-latin {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--dimmer);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.domain-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 2.5rem;
+}
+
+.domain-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 1px;
+}
+
+/* QUOTE */
+.enc-quote {
+  border-left: 1px solid #333;
+  padding: 1.25rem 2rem;
+  margin-bottom: 3rem;
+}
+
+.enc-quote-text {
+  font-size: 19px;
+  line-height: 1.8;
+  color: #aaa;
+  font-style: italic;
+  margin-bottom: 0.75rem;
+}
+
+.enc-quote-attr {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--dimmer);
+  text-transform: uppercase;
+}
+
+/* HYPOTHESIS */
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.hypothesis {
+  font-size: 17px;
+  line-height: 1.85;
+  color: #888;
+  margin-bottom: 3rem;
+  max-width: 680px;
+}
+.hypothesis strong { color: #ccc; font-weight: 400; }
+
+/* DATA GRID */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 2.5rem;
+}
+
+.data-cell {
+  background: #000;
+  padding: 1.5rem 1.25rem;
+}
+
+.data-num {
+  font-family: var(--mono);
+  font-size: clamp(20px, 4vw, 30px);
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+.data-num.red { color: var(--red); }
+.data-num.green { color: var(--green); }
+.data-num.white { color: var(--white); }
+
+.data-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dimmer);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* VERDICTS */
+.verdict {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 1rem;
+  padding: 1.25rem;
+  background: #050505;
+  border: 1px solid var(--border);
+}
+
+.verdict-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  margin-top: 9px;
+  flex-shrink: 0;
+}
+.verdict-dot.green { background: var(--green); }
+
+.verdict-text {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.8;
+}
+.verdict-text strong { color: #bbb; font-weight: 400; }
+.verdict-text.green-text strong { color: var(--green); }
+
+/* EXPANDABLE SECTIONS */
+.expand-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  padding: 1.1rem 0;
+  cursor: pointer;
+  text-align: left;
+  margin-top: 2rem;
+}
+
+.expand-btn-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  transition: color 0.2s;
+}
+.expand-btn:hover .expand-btn-label { color: var(--white); }
+
+.expand-btn-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12px;
+  color: #333;
+  margin-left: 1rem;
+}
+
+.expand-btn-icon {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--dimmer);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.expand-btn.open .expand-btn-icon { transform: rotate(45deg); }
+
+.expand-content {
+  display: none;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.expand-content.open { display: block; }
+
+.narrative-text {
+  font-size: 16px;
+  line-height: 1.9;
+  color: #777;
+  max-width: 680px;
+}
+.narrative-text p { margin-bottom: 1.25rem; }
+.narrative-text strong { color: #aaa; font-weight: 400; }
+
+.encyclical-text {
+  font-size: 15px;
+  line-height: 1.95;
+  color: #666;
+  max-width: 680px;
+  font-family: var(--serif);
+}
+.encyclical-text p { margin-bottom: 1.25rem; }
+.encyclical-text h4 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  margin: 2rem 0 0.75rem;
+}
+
+.ext-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dimmer);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  margin-top: 1.5rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+.ext-link:hover { color: var(--white); border-color: #444; }
+
+/* SECTION BRIDGE */
+.bridge {
+  text-align: center;
+  padding: 1.5rem;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: #2a2a28;
+  border-bottom: 1px solid var(--border);
+}
+
+/* SYNTHESIS / LOOP */
+.synthesis {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+.synthesis-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.loop-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 3rem;
+}
+
+.loop-row {
+  background: #000;
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  gap: 1rem;
+}
+
+.loop-domain {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--red);
+  letter-spacing: 0.06em;
+}
+
+.loop-arrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--dimmer);
+  text-align: center;
+}
+
+.loop-effect {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--dimmer);
+  line-height: 1.6;
+}
+
+.final-verdict {
+  border: 1px solid #1a1a1a;
+  padding: 3rem 2.5rem;
+  margin-top: 3rem;
+  background: #020202;
+}
+
+.final-verdict-text {
+  font-size: 17px;
+  line-height: 2;
+  color: #666;
+  max-width: 720px;
+}
+.final-verdict-text strong { color: #bbb; font-weight: 400; }
+
+.redemption {
+  border-left: 1px solid var(--green);
+  padding: 1.5rem 2rem;
+  margin-top: 2.5rem;
+}
+
+.redemption-text {
+  font-size: 16px;
+  line-height: 1.9;
+  color: #666;
+}
+.redemption-text strong { color: var(--green); font-weight: 400; }
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 4rem 2rem;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.footer-cross {
+  font-size: 22px;
+  color: #2a2a28;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.footer-text {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: #2a2a28;
+  line-height: 2.5;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #1a1a1a; }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .loop-row { grid-template-columns: 1fr; }
+  .loop-arrow { display: none; }
+  .nav a { font-size: 9px; padding: 14px 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- FIXED PARALLAX BACKGROUND -->
+<div class="hero-bg">
+  <img src="leo-xiii.jpg" alt="Pope Leo XIII, 1878–1903" />
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-fade"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Catholic Social Teaching · Nine Encyclicals · 1878–1891</div>
+    <div class="hero-year">1891 &nbsp;——&nbsp; 2026</div>
+    <h1 class="hero-h1">He wrote the hypothesis.<br><em>The data is the result.</em></h1>
+    <div class="hero-sub">
+      Nine encyclicals. One hundred and thirty-five years.<br>
+      Fifteen domains of documented collapse.<br>
+      Not prophecy. Logic.
+    </div>
+    <div class="hero-rule"></div>
+    <div class="hero-scroll">Scroll to begin the proof ↓</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="main-nav">
+  <div class="nav-logo">Leo XIII</div>
+  <a href="#enc1">I</a>
+  <a href="#enc2">II</a>
+  <a href="#enc3">III</a>
+  <a href="#enc4">IV</a>
+  <a href="#enc5">V</a>
+  <a href="#enc6">VI</a>
+  <a href="#enc7">VII</a>
+  <a href="#enc8">VIII</a>
+  <a href="#enc9">IX</a>
+  <a href="#synthesis">✠</a>
+</nav>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL I — AETERNI PATRIS
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc1">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical I</span>
+    <span class="enc-year">1879</span>
+  </div>
+  <div class="enc-english">On the Restoration of Christian Philosophy</div>
+  <div class="enc-latin">Aeterni Patris</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain VIII — Information Ecosystem</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"When the mind has once accepted a position at variance with the truth, there follows a corresponding error in the regulation of life and conduct."</div>
+    <div class="enc-quote-attr">— Leo XIII, Aeterni Patris, 1879</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    A civilization that abandons the philosophical basis of shared truth does not become neutral. It becomes <strong>susceptible</strong>. Without a grounded epistemology — a coherent account of how we know what is real — the information space does not stay empty. It fills. It fills with whatever produces the most intense emotional response. The market for attention has no interest in accuracy. It has every interest in activation.
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">6</div>
+      <div class="data-label">Corporations controlling ~90% of what Americans see, hear, and read. Was 50 in 1983.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">2,500+</div>
+      <div class="data-label">Local newspapers closed since 2005. Communities without accountability journalism.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">6%</div>
+      <div class="data-label">Americans with great confidence in news media. Near historic low.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">0</div>
+      <div class="data-label">Shared factual baseline at population scale. Does not exist.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">The algorithmic attention economy is the logical endpoint of Aeterni Patris ignored. When there is no agreed philosophical basis for truth, the market selects for emotional activation. <strong>Outrage is the product. Accuracy is not a metric.</strong></div>
+  </div>
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">Leo XIII did not predict social media. He identified the prior condition — the abandonment of shared epistemic ground — that makes a system like social media <strong>inevitable rather than accidental.</strong></div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>The information ecosystem is infrastructure — the same way roads and water systems are infrastructure — because a functioning democracy requires a shared factual baseline from which collective problem-solving can proceed. The collapse of that baseline is not primarily a social media story. It is a structural story about ownership concentration, incentive misalignment, and the systematic elimination of the accountability journalism layer that historically connected local communities to the facts of their own governance.</p>
+      <p>In 1983, 50 companies controlled the majority of US media. By 2000 that number had contracted to 6. That consolidation has continued. Six corporations now control approximately 90% of what Americans see, hear, and read. This is not a free press in any meaningful structural sense. It is a corporate press that has the formal protections of a free press and the operational incentives of an advertising business — incentives that structurally favor conflict, fear, and tribal identity over accuracy, complexity, and accountability.</p>
+      <p>The internal research at major social platforms — documented in congressional testimony and investigative reporting — shows that recommendation algorithms select for the most emotionally activating content regardless of its truth value. The platforms' own researchers identified this dynamic, in some cases proposed corrections, and were overruled by business units. The reason is straightforward: <strong>emotional activation drives engagement, engagement drives time on platform, time on platform drives advertising revenue. Accuracy is not a metric in this equation.</strong></p>
+      <p>The downstream consequence is a population that receives information optimized for its emotional activation rather than its accuracy — and then cannot form the shared factual baseline from which collective problem-solving would need to proceed. You cannot govern a democracy without a shared information commons. That commons no longer exists at the required scale.</p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Aeterni Patris · 1879 · Selected passages</h4>
+      <p>The only safeguard of order and discipline in society is a sound system of philosophy, for it is this which lays the groundwork of those fundamental principles upon which the whole fabric of moral science rests. Without a sound philosophy the mind will not only go wrong in matters of faith but also in morals.</p>
+      <p>Domestic and civil society even, which, as all see, is exposed to great danger from this plague of perverse opinions, would certainly enjoy a far more peaceful and secure existence if a more wholesome doctrine were taught in the academies and schools — one more in conformity with the teaching of the Church.</p>
+      <p>We exhort you, venerable brethren, in all earnestness to restore the golden wisdom of St. Thomas, and to spread it far and wide for the defense and beauty of the Catholic faith, for the good of society, and for the advantage of all the sciences.</p>
+      <p>The scholastic philosophy, when judiciously taught, is of great value for purifying the intellect and freeing it from error — for investigating the hidden and lofty truths of revelation — for connecting those truths by a strong bond of argument to other known truths — and for rendering them still further known, and for rendering them still further intelligible and useful in every department of knowledge.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_04081879_aeterni-patris.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL II — LIBERTAS
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc2">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical II</span>
+    <span class="enc-year">1888</span>
+  </div>
+  <div class="enc-english">On Human Liberty</div>
+  <div class="enc-latin">Libertas</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain VI — Political Corruption</span>
+    <span class="domain-tag">Domain VII — Institutional Trust</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"Liberty, then, as We have said, belongs only to those who have the gift of reason or intelligence. Animals are ruled by force rather than by reason, and their liberty, if we can call it that, is license rather than liberty. But true liberty in man is a noble thing, for it is the source whence the human agent draws all dignity and worth."</div>
+    <div class="enc-quote-attr">— Leo XIII, Libertas, 1888</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    Liberty without moral foundation does not liberate. It concentrates. When power operates without reference to a moral order above itself, it writes the rules by which it is governed, appoints the judges who interpret those rules, and extracts value from the system it was elected to steward. <strong>The 2% confidence number is not cynicism. It is the population accurately reading the result.</strong>
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">2%</div>
+      <div class="data-label">Americans with great confidence elected officials will act in the public interest. (Pew)</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">$218</div>
+      <div class="data-label">Average STOCK Act fine for congressional insider trading disclosure violations.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">7%</div>
+      <div class="data-label">Confidence in Congress. Historic low. Bipartisan.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">0</div>
+      <div class="data-label">Meaningful STOCK Act prosecutions in its history.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">Members of Congress sit on committees regulating industries in which they hold personal investments. This is not a conflict of interest that occasionally produces problematic outcomes. <strong>It is a conflict of interest that is the routine operating condition of the legislative process.</strong></div>
+  </div>
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">Leo XIII argued that liberty ordered toward nothing higher than itself becomes its own justification for appetite. <strong>The documented pattern of bipartisan congressional trading anomalies is that argument confirmed in financial disclosure records.</strong></div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>The documented pattern of congressional trading that has statistically outperformed market benchmarks is not a partisan issue. Academic research covering members of both parties has found returns inconsistent with ordinary investment skill or random chance. The structural explanation is available in public disclosure records: members of Congress sit on the committees that write the legislation affecting the industries in which they hold personal investments.</p>
+      <p>The STOCK Act was passed in 2012 specifically to prevent trading on non-public legislative information. Its average fine for disclosure violations is $218. It has produced essentially zero meaningful prosecutions in its history. The bipartisan resistance to strengthening it — which would require members of both parties to forgo a documented source of above-market returns — explains its toothlessness more completely than any other factor.</p>
+      <p>The Federal Reserve's quantitative easing programs inflated equity and real estate prices. The top 1% of households own approximately 54% of all publicly traded equity. The bottom 50% own approximately 1%. <strong>When QE inflated asset prices, it primarily transferred wealth to the top 10% of households.</strong> This is not a conspiracy. It is the documented mechanical consequence of using asset price inflation as the primary monetary transmission mechanism in an economy with extreme wealth concentration.</p>
+      <p>The 2% confidence number is the most consequential number in this entire index — not because it is the most dramatic, but because it identifies the structural condition that makes every other crisis effectively unaddressable through normal channels. You cannot run a public health campaign through institutions that 62% of the public distrusts. You cannot address food supply contamination through a regulatory system the food industry shapes. You cannot reform congressional trading through a body that profits from it.</p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Libertas · 1888 · Selected passages</h4>
+      <p>Liberty, the highest of natural endowments, being the portion only of intellectual or rational natures, confers on man this dignity — that he is in the hand of his own counsel and has power over his actions. But the manner in which such dignity is exercised is of the greatest moment, inasmuch as on the use that is made of liberty the highest good and the greatest evil alike depend.</p>
+      <p>The true liberty of human society does not consist in every man doing what he pleases, for this would simply end in turmoil and confusion, and bring on the overthrow of the State; but rather in this, that through the injunctions of the civil law all may more easily conform to the prescriptions of the eternal law.</p>
+      <p>There are others, somewhat more moderate though not more consistent, who affirm that the morality of individuals is to be guided by the divine law, but not the morality of the State, for that in public affairs the commands of God may be passed over, and may be entirely disregarded in the framing of laws. Hence follows the fatal theory of the need of separation between Church and State.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_20061888_libertas.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL III — ARCANUM
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc3">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical III</span>
+    <span class="enc-year">1880</span>
+  </div>
+  <div class="enc-english">On Christian Marriage</div>
+  <div class="enc-latin">Arcanum</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain V — Demographics</span>
+    <span class="domain-tag">Domain XI — Social Capital</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"The family is older than the State, and possesses rights and duties which are prior to those of the community and which the State cannot destroy or absorb."</div>
+    <div class="enc-quote-attr">— Leo XIII, Arcanum, 1880</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    The family is the basic unit of civilization — not as sentiment but as architecture. Every entitlement system, every tax base, every social support network was built on demographic assumptions that rest on the family. When those assumptions collapse, the entire fiscal and social structure built upon them collapses with it. <strong>The Social Security trust fund does not deplete because of bad accounting. It depletes because the family was treated as optional.</strong>
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">1.62</div>
+      <div class="data-label">US total fertility rate. Replacement requires 2.10. Below replacement for decades.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">2.7</div>
+      <div class="data-label">Workers per Social Security recipient. Was 5.1 in 1960.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">2033</div>
+      <div class="data-label">Projected Social Security trust fund depletion. 23% automatic benefit cut.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">2031</div>
+      <div class="data-label">Medicare hospital trust fund projected depletion.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">Young Americans report wanting children but being economically unable to act on that desire. <strong>This is not a values shift. It is an economic barrier with a civilizational consequence.</strong> A civilization that does not replace itself is making a choice about its future — even if that choice is made through accumulating constraint rather than deliberate decision.</div>
+  </div>
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">The Surgeon General declared loneliness a public health epidemic. The health effects of chronic loneliness are equivalent to smoking 15 cigarettes per day. <strong>Religious institutions were the primary historical provider of the belonging that prevents this. Their decline is a social infrastructure story, not a theological one.</strong></div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>The demographic-fiscal trap is the slow-motion catastrophe that makes every other number in this index worse. Social Security and Medicare were designed for a demographic reality in which 5+ workers supported each retiree. That reality has not existed for decades. The ratio stands at 2.7 today and continues falling. The actuarial math is not a projection or a model. It is arithmetic.</p>
+      <p>The Social Security Administration's trustees project trust fund depletion by 2033. At that point, under current law, benefits would automatically cut by approximately 23%. Medicare's hospital trust fund faces depletion by 2031. These are not political predictions. They are the official projections of the agencies administering the programs. Neither party has proposed reforms commensurate with the scale of the problem.</p>
+      <p>The family formation crisis is both a demographic problem and a social capital problem. Marriage rates and birth rates are at historic lows simultaneously. Polling consistently shows young Americans desire children at rates higher than they are having them — the gap between desired and actual fertility is filled with documented economic barriers: housing unaffordability, student debt, wage stagnation, and the collapse of the cultural and religious frameworks that historically supported family formation.</p>
+      <p>Social capital is the connective tissue that allows communities to respond to crises without routing everything through centralized institutions. Robert Putnam documented its collapse in Bowling Alone. That collapse has continued and accelerated. The civic associations, fraternal organizations, labor unions, neighborhood groups, and service clubs that once provided the infrastructure for decentralized collective action have hollowed out across nearly every community type. <strong>No government program has successfully replicated any of these functions at scale.</strong></p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Arcanum · 1880 · Selected passages</h4>
+      <p>The true origin of marriage, venerable brothers, is well known to all. Though the words expressing it are to be found in Genesis, nevertheless because those words contain matter of the greatest importance — things which have always been understood by holy Fathers and by all interpreters of Sacred Scripture — We wish to constitute them the foundation of the things We are about to say.</p>
+      <p>God thus, in His most far-reaching foresight, decreed that this husband and wife should be the natural beginning of the human race, from whom it might be propagated and preserved by an unfailing fruitfulness throughout all futurity of time. This union, therefore, was of a nature that it could not be dissolved or separated by any human act whatsoever.</p>
+      <p>The Church, on the other hand, teaches that matrimony is to be under the charge and authority of the Church alone; that the family is anterior to the State; that the right of parents to direct the education of their children is a natural right anterior to the State and to any human legislation.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_10021880_arcanum.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL IV — HUMANUM GENUS
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc4">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical IV</span>
+    <span class="enc-year">1884</span>
+  </div>
+  <div class="enc-english">On Freemasonry and Naturalism</div>
+  <div class="enc-latin">Humanum Genus</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain VI — Political Corruption</span>
+    <span class="domain-tag">Domain VII — Institutional Trust</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"The race of man, after its miserable fall from God, divided itself into two diverse and opposite parts. The one part fights for truth and virtue; the other for those things which are contrary to virtue and to truth."</div>
+    <div class="enc-quote-attr">— Leo XIII, Humanum Genus, 1884</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    When a protected class operates above the law it writes, a pattern emerges across all domains simultaneously. The same mechanism — prosecutorial discretion exercised in favor of the connected — produces congressional trading immunity, pharmaceutical non-prosecution, food industry regulatory capture, and the protection of powerful men from consequences that fall on ordinary citizens. <strong>It is one pattern operating across many domains. The population has correctly identified it.</strong>
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">$11B</div>
+      <div class="data-label">Extracted by the Sackler family from Purdue Pharma before bankruptcy. Financial beneficiaries of 500,000 deaths largely escaped accountability.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">54%</div>
+      <div class="data-label">Of all publicly traded equity owned by the top 1%. Bottom 50% own ~1%.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">23%</div>
+      <div class="data-label">Confidence in the presidency. Down 15 points in a single year.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">2008</div>
+      <div class="data-label">Epstein non-prosecution agreement. Unnamed co-conspirators given immunity. Documented in court proceedings.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">The Epstein case, the Purdue Pharma settlement, the STOCK Act enforcement record, the revolving door between regulators and the regulated — these are not separate scandals. <strong>They are the same mechanism expressed in different sectors: the systematically differential application of accountability based on proximity to power.</strong></div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>The Epstein case deserves treatment as an institutional case study rather than tabloid material. The 2008 non-prosecution agreement engineered by Alexander Acosta — which gave Epstein and unnamed co-conspirators immunity from federal prosecution — is documented in court proceedings. Flight logs, civil settlement records, released Maxwell trial documents, and convicted parties establish a pattern of powerful men being protected from consequences that would fall on ordinary citizens.</p>
+      <p>The specific mechanism — prosecutorial discretion exercised in favor of the wealthy and connected — is the same mechanism that produces the congressional insider trading immunity, the pharmaceutical company non-prosecution, and the food industry regulatory capture. It is one pattern operating across many domains.</p>
+      <p>The Sackler family extracted approximately $11 billion from Purdue Pharma before the company entered bankruptcy in 2019. The bankruptcy proceedings and subsequent settlement — which shielded family members from personal liability in exchange for a payment that represented a fraction of what was extracted — is itself a documented case of the legal system treating financial liability differently for those with sufficient resources to navigate it. <strong>The financial beneficiaries of the crisis that killed 500,000 Americans emerged largely intact.</strong> This is part of the institutional pattern that explains the 2% confidence number.</p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Humanum Genus · 1884 · Selected passages</h4>
+      <p>At this period, however, the partisans of evil seem to be combining together, and to be struggling with united vehemence, led on or assisted by that strongly organized and widespread association called the Freemasons. No longer making any secret of their purposes, they are now boldly rising up against God Himself.</p>
+      <p>Now, the fundamental doctrine of the naturalists, which they sufficiently make known by their very name, is that human nature and human reason ought in all things to be mistress and guide. Laying this down, they care little for duties to God, or pervert them by erroneous and vague opinions. For they deny that anything has been taught by God; they allow no dogma of religion or truth which cannot be understood by the human intelligence, nor any teacher who ought to be believed by reason of his authority.</p>
+      <p>From the sect of the Freemasons there is little to be hoped for, and for the following reasons: that by its very constitution it claims an absolute and unquestioned authority over its members; that it does not require its members to hold or follow any particular religion; and that it permits the profession of any creed whatever.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_18840420_humanum-genus.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL V — DIUTURNUM
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc5">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical V</span>
+    <span class="enc-year">1881</span>
+  </div>
+  <div class="enc-english">On Civil Government</div>
+  <div class="enc-latin">Diuturnum</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain XIV — Infrastructure</span>
+    <span class="domain-tag">Domain VI — Corruption</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"If, then, the governing power of the State is not established on right principles, those who exercise it are not governing well and the result is a deterioration in the common good — not its promotion."</div>
+    <div class="enc-quote-attr">— Leo XIII, Diuturnum, 1881</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    Physical infrastructure is governance made visible in concrete and steel. Roads don't lie. Bridges don't lie. Water pipes don't lie. The grade assigned to a nation's physical fabric is the grade assigned to a political system's capacity for long-term stewardship over the common good. <strong>C− is the grade of a state that has lost its moral ordering principle.</strong> Maintenance doesn't produce ribbon-cutting moments. So maintenance doesn't happen.
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">C−</div>
+      <div class="data-label">ASCE overall US infrastructure grade. Barely passing.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">42,000+</div>
+      <div class="data-label">Bridges currently rated structurally deficient. Millions cross them daily.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">$2.6T</div>
+      <div class="data-label">10-year infrastructure investment gap. Money the government does not have.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">↑</div>
+      <div class="data-label">Major grid outages from weather events. Rising. Peer nations do not experience cascading failures at comparable rates.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">Millions of Americans are served by water systems with lead infrastructure. The neurological effects on children are documented, permanent, and severe. <strong>Flint was not an anomaly. It was a visible instance of a condition affecting hundreds of communities whose failures were less dramatic and therefore less reported.</strong></div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>Infrastructure decay is the physical manifestation of a political system that systematically discounts long-term collective investment in favor of short-term political incentives. Roads, bridges, water systems, the electrical grid, and wastewater treatment do not produce ribbon-cutting moments on the maintenance schedule. They produce catastrophic failures — collapses, contamination events, cascading blackouts — when the maintenance that was deferred long enough finally comes due.</p>
+      <p>The fiscal interaction is direct and unresolvable under current trajectories: the infrastructure deficit requires $2.6 trillion in investment over 10 years according to ASCE. The national debt trajectory — $1 trillion in annual interest payments growing to $2.1 trillion by 2036 — removes the fiscal space that would be required to address this deficit. <strong>The physical infrastructure of the country will continue to deteriorate at a pace determined by the rate at which current facilities fail, not by any rational maintenance or investment plan.</strong></p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Diuturnum · 1881 · Selected passages</h4>
+      <p>The natural law enjoins us to love devotedly and to defend the country in which we had birth, and in which we were brought up, so that every good citizen hesitates not to face death for his native land. Very near to this, or rather, flowing from it, is the duty of reverence and obedience to the lawful rulers of the State; and this obedience is founded on the natural order of things.</p>
+      <p>God alone is the true and supreme Lord of the world. Everything, without exception, must be subject to Him, and must serve him, so that whosoever holds the right to govern holds it from one sole and single source, namely, God, the sovereign Ruler of all. There is no power but from God.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_29061881_diuturnum.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL VI — IMMORTALE DEI
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc6">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical VI</span>
+    <span class="enc-year">1885</span>
+  </div>
+  <div class="enc-english">On the Christian Constitution of States</div>
+  <div class="enc-latin">Immortale Dei</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain IV — National Debt</span>
+    <span class="domain-tag">Domain I — Physical Health</span>
+    <span class="domain-tag">Domain II — Healthcare</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"A society without religion is like a ship without a compass — it cannot know its direction, and it is subject to every wind and passion that arises."</div>
+    <div class="enc-quote-attr">— Leo XIII, Immortale Dei, 1885</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    A state without moral restraint borrows against its children, permits a food supply that sickens its people, and builds a healthcare system that extracts rather than heals. The common good is not a natural political output. It requires a moral framework that holds power accountable to something beyond itself. <strong>$39 trillion in debt and 194 million Americans with chronic disease are what ungoverned institutional appetite looks like at scale.</strong>
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">$39T</div>
+      <div class="data-label">National debt. 101% of GDP. Only exceeded at end of WWII.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">$1T</div>
+      <div class="data-label">Annual interest. Builds nothing. Funds nothing. Helps no one.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">194M</div>
+      <div class="data-label">American adults with at least one chronic condition. 6 in 10 young adults.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">2×</div>
+      <div class="data-label">US per-capita healthcare spend vs. peers. $13,000 vs. ~$5,000. Worse outcomes.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">The FDA's own Commissioner stated in 2025: "The threats posed to our health by foods often considered ultra-processed are clear and convincing." These are the current official positions of the agencies that permitted the current state of affairs for decades. <strong>The regulator and the regulated operate as one system.</strong></div>
+  </div>
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">By 2038 interest payments will exceed all discretionary spending — meaning the US will spend more on past borrowing than on everything else combined. <strong>The state has mortgaged the common good to finance the present.</strong></div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>The Congressional Budget Office projects that the federal budget deficit in fiscal year 2026 is $1.9 trillion — 5.8% of GDP. The 50-year historical average for the deficit is 3.8% of GDP. The CBO projects deficits will exceed 5% of GDP every single year from 2020 to 2056 — something that has never occurred for more than five consecutive years in American history outside of World War II.</p>
+      <p>The US healthcare system is not underperforming. It is performing exactly as its incentive structures dictate. The problem is that those structures reward volume, complexity, and billing — not health outcomes. At $13,000 per capita annually, the US spends nearly triple Japan's per-person cost and achieves a life expectancy 8 years shorter.</p>
+      <p>Glyphosate is detected in 70–80% of all people examined including children, according to the University of Washington's Seattle Statement. The EPA classifies glyphosate as not likely to cause cancer. The IARC classifies it as "probably carcinogenic." <strong>These are not nuanced differences of degree. They are opposite conclusions from two authoritative bodies — one of which has jurisdiction over the American food supply.</strong></p>
+      <p>Medical bankruptcy — the financial destruction of families by medical bills — is essentially a uniquely American phenomenon. It does not occur at scale in Germany, Japan, Canada, the UK, France, or any comparable wealthy nation. Its existence is the specific product of a system that treats health as a commodity rather than a common good.</p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Immortale Dei · 1885 · Selected passages</h4>
+      <p>As no society can hold together unless some one be over all, directing all to strive earnestly for the common good, every body politic must have a ruling authority, and this authority, no less than society itself, has its source in nature, and has, consequently, God for its Author. Hence, it follows that all public power must proceed from God.</p>
+      <p>The State, constituted as it is, is clearly bound to act up to the manifold and weighty duties linking it to God, by the public profession of religion. Nature and reason, which command every individual devoutly to worship God in holiness, because we belong to Him and must return to Him, since from Him we came, bind also the civil community by a like law.</p>
+      <p>So, too, it is a sin for the State to act as though God did not exist, or to cast off the care of religion as if it were something foreign to it, or of no use to it. And since it is the business of the State to consult for the temporal welfare of the community, it would be a grave error for it to neglect the interests of morality.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_01111885_immortale-dei.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL VII — QUOD APOSTOLICI MUNERIS
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc7">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical VII</span>
+    <span class="enc-year">1878</span>
+  </div>
+  <div class="enc-english">On Socialism, Communism, and Nihilism</div>
+  <div class="enc-latin">Quod Apostolici Muneris</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain X — Mental Health</span>
+    <span class="domain-tag">Domain XI — Social Capital</span>
+    <span class="domain-tag">Domain XIII — Opioids</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"Denying in practice the immortality of the soul, they hold that when the soul has parted from the body it dies; and they fear not to maintain and to teach that there is no life after this mortal life, no other reward than this — to enjoy with impunity the pleasures of this world."</div>
+    <div class="enc-quote-attr">— Leo XIII, Quod Apostolici Muneris, 1878</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    Nihilism kills — literally. When life is positioned as having no higher purpose than the satisfaction of desire before return to void, the void must be filled. The question is only what fills it. <strong>Fentanyl is one answer the void has given. Screens are another. Mass disengagement is another. Twenty-seven million fewer people thriving is the aggregate result.</strong> This was not an accident. It was the logical endpoint of the system.
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">500K+</div>
+      <div class="data-label">Americans dead of opioid overdose since 1999. Exceeds US WWII combat deaths.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">27M</div>
+      <div class="data-label">Fewer Americans thriving today than four years ago. Gallup National Index.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">23%</div>
+      <div class="data-label">Gen Z reporting excellent mental health. Down 15 points since 2019.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">19%</div>
+      <div class="data-label">Workers globally fully engaged on the job in 2025. 80%+ going through the motions.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">Viktor Frankl observed that human beings can endure almost any suffering if they understand its meaning, but cannot endure purposelessness. <strong>The AI displacement anxiety is not primarily fear of poverty. It is fear of a world in which human effort and human contribution are structurally unnecessary.</strong> Leo XIII named this condition in 1878.</div>
+  </div>
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">American youth wellbeing is declining while improving in most comparable countries. <strong>This is a specifically American phenomenon — not a global generational trend.</strong> The American condition produces it. The American condition has a diagnosis that is 135 years old.</div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>The opioid and fentanyl crisis is primarily an institutional failure story. Purdue Pharma's own internal documents show the company knew OxyContin's addiction risk was significantly higher than represented to prescribers and regulators. The FDA approval process failed to catch or act on this. The distribution chain — pharmaceutical distributors who shipped hundreds of millions of pills to communities whose pharmacies could not possibly have had legitimate patients to receive them — operated within a regulatory framework that did not treat volume as a warning sign until the death toll was undeniable.</p>
+      <p>Gallup's National Health and Well-Being Index data presents a consistent and deteriorating picture. The thriving rate stood at 48.9% in Q1 2025, below 50% for the first time since spring 2020. Since reaching a record high of 59.2% in June 2021, the thriving rate has shed over 10 percentage points — projecting to an estimated 27 million fewer Americans thriving now compared with four years ago.</p>
+      <p>The causal picture requires intellectual honesty that the social media narrative alone does not provide. Social media is a contributor. But the full range of documented causal candidates must be assessed: <strong>the economic precarity that makes traditional adult life markers structurally inaccessible; the breakdown of family structure; the decline of religious and civic community; the food supply effects on physical and neurological health; and the AI-driven existential uncertainty about the value of education and career.</strong> These are not mood factors. They are structural conditions with measurable psychological consequences.</p>
+      <p>The communities most devastated by the opioid crisis experienced permanent damage to workforce participation — a documented reduction in labor force participation that predates and extends beyond the acute overdose statistics. Family formation collapsed in affected communities. Civic capacity was destroyed. These represent a permanent subtraction from the social and economic capacity of hundreds of communities.</p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Quod Apostolici Muneris · 1878 · Selected passages</h4>
+      <p>You understand, venerable brothers, that We speak of that sect of men who, under various and almost barbarous names, are called socialists, communists, or nihilists, and who, spread over all the world, and bound together by the closest ties in a wicked confederacy, no longer seek the shelter of secret meetings, but, openly and boldly marching forth in the light of day, strive to bring to a head what they have long been planning.</p>
+      <p>For, rejecting the teachings and authority of the Church, and denying the existence of any divine right, they maintain that questions of religion and morality are matters which each man may decide as he pleases, since each is master of himself. Hence arise the utter contempt of authority, license of the will, and the prevalence of unbridled passion throughout society.</p>
+      <p>Now, the fundamental principle of socialism which would make all men equal, by distributing among them equally whatever makes them unequal, strikes at the very root of human industry; for it destroys the stimulus of individual effort and energy, by taking away the hope of reward and the fear of punishment.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_28121878_quod-apostolici-muneris.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL VIII — RERUM NOVARUM
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc8">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical VIII</span>
+    <span class="enc-year">1891</span>
+  </div>
+  <div class="enc-english">On the Rights and Duties of Capital and Labor</div>
+  <div class="enc-latin">Rerum Novarum</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain III — Economic Reality</span>
+    <span class="domain-tag">Domain IX — Education</span>
+    <span class="domain-tag">Domain XII — AI Displacement</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"It is neither just nor human to grind men down with excessive labor as though they were things to be used for profit, and not persons endowed with reason."</div>
+    <div class="enc-quote-attr">— Leo XIII, Rerum Novarum, 1891</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    When capital is permitted to treat labor as a disposable input rather than a dignified human reality, the extraction mechanism does not stop. It optimizes. Each generation of technology provides a more efficient instrument for the same logic. The worker possesses dignity not because the market grants it — but because he is made in the image of God. Remove that premise and the market finds its own answer. <strong>AI is not a new problem. It is the old problem running faster.</strong>
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">$1.77T</div>
+      <div class="data-label">Student debt. Borrowed for credentials AI is now depreciating before the loans are paid off.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">60%</div>
+      <div class="data-label">US workers concerned about AI job loss. Was 28% two years ago. Doubled in 24 months.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">−20%</div>
+      <div class="data-label">Employment for software developers aged 22–25 since 2022 peak. Career ladder severed at its base.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">20%</div>
+      <div class="data-label">Income increase required to restore 2021 purchasing power. Has not occurred and is not projected to occur.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">55,000 jobs directly eliminated by AI in 2025 — a 12-fold increase from 2023. Anthropic's own CEO has stated AI could eliminate half of all entry-level white-collar jobs within one to four years. <strong>These are not projections from people hostile to the technology. They are assessments from the people building it.</strong></div>
+  </div>
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">Thirty years of cultural derision toward trade careers while defunding vocational training directed a generation toward the highest AI-displacement-risk roles. <strong>The workers most derided for not going to college are currently the most economically resilient. The market is correcting what the culture got wrong.</strong></div>
+  </div>
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">Rerum Novarum introduced the term "social justice." It was a Catholic concept — rooted in natural law and human dignity — long before it was extracted from that framework and redeployed as an instrument of the very system Leo XIII warned against. <strong>The term was stolen. The concept it pointed to was abandoned.</strong></div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>The headline economic statistics are real numbers. They are also profoundly inadequate descriptions of the economic reality experienced by the median American household. The gap between what the statistics report and what households experience is itself one of the most significant economic stories of the current period — because it explains the persistent mismatch between professional economic commentary and public economic sentiment that commentators continue to misread as irrationality.</p>
+      <p>Incomes would need a 20% boost to restore pre-pandemic purchasing power. That restoration has not occurred. The cumulative inflation surge that peaked at 9.1% in June 2022 — the highest in 40 years — was never matched by equivalent wage gains during the period of maximum damage.</p>
+      <p>The housing situation is not a cycle. It is a structural transformation of who can afford to own property in the United States. The US faces a deficit of over 4 million homes. The home price-to-income ratio stands at approximately 4.9. Median home prices have increased over 1,000% since the 1970s. <strong>A generation has been effectively locked out of the ownership pathway that was the primary vehicle for middle-class wealth accumulation in the 20th century.</strong></p>
+      <p>The AI displacement crisis has two dimensions. The first is economic — the documented and accelerating elimination of roles, the disruption of the career ladder at its entry point. The second is existential — the question of what human beings are for in an economy where machine capability is expanding faster than the cultural, educational, and political systems can process. Work provides not just income but structure, identity, social belonging, and a sense of competence and contribution. The fear driving the displacement anxiety numbers is not primarily fear of poverty. <strong>It is fear of a world in which human effort and human contribution are structurally unnecessary.</strong></p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Rerum Novarum · 1891 · Selected passages</h4>
+      <p>That the spirit of revolutionary change, which has long been disturbing the nations of the world, should have passed beyond the sphere of politics and made its influence felt in the cognate sphere of practical economics is not surprising. The elements of the conflict now raging are unmistakable: the growth of industry, and the surprising discoveries of science; the changed relations between masters and workmen; the enormous fortunes of some few individuals, and the utter poverty of the masses; the increased self-reliance and closer mutual combination of the working classes; as also, finally, a general moral deterioration.</p>
+      <p>It is not difficult to determine what would be the result of such a state of things: the great mass of the human race would fall back gradually into the slavery of bygone ages. To remedy these wrongs the socialists, working on the poor man's envy of the rich, are striving to do away with private property, and contend that individual possessions should become the common property of all.</p>
+      <p>We now approach a subject of great and urgent importance, and one in respect of which, if excesses are to be avoided, right notions are absolutely necessary. Wages, as we are told, are regulated by free consent, and therefore the employer, when he pays what was agreed upon, has done his part and seemingly is not called upon to do anything beyond. The only way, it is maintained, in which injustice could happen would be if the master refused to pay the whole of the wages, or if the workman should not complete the work undertaken; in such cases the public authority should intervene, to see that each obtains his due, but not under any other circumstances.</p>
+      <p>To this kind of argument a fair-minded man will not easily or entirely assent; it is not complete, for there are important considerations which it leaves out of account altogether. To labor is to exert oneself for the sake of procuring what is necessary for the various purposes of life, and chief of all for self-preservation. Hence, a man's labor necessarily bears two notes or characters. First of all, it is personal, inasmuch as the force which acts is bound up with the personality and is the exclusive property of him who acts, and, furthermore, was given to him for his advantage. Secondly, man's labor is necessary; for without the result of labor a man cannot live, and self-preservation is a law of nature, which it is wrong to disobey.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_15051891_rerum-novarum.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">· · ·</div>
+
+<!-- ═══════════════════════════════════════════════
+     ENCYCLICAL IX — SAPIENTIAE CHRISTIANAE
+     ═══════════════════════════════════════════════ -->
+<section class="enc" id="enc9">
+  <div class="enc-top">
+    <span class="enc-numeral">Encyclical IX</span>
+    <span class="enc-year">1890</span>
+  </div>
+  <div class="enc-english">On Christians as Citizens</div>
+  <div class="enc-latin">Sapientiae Christianae</div>
+  <div class="domain-tags">
+    <span class="domain-tag">Domain I — Physical Health</span>
+    <span class="domain-tag">Domain II — Healthcare</span>
+    <span class="domain-tag">Domain VII — Institutional Trust</span>
+  </div>
+
+  <div class="enc-quote">
+    <div class="enc-quote-text">"The greatest mistake is to think that the Church approves of rights being separated from duties; for the one necessarily accompanies the other. Rights without duties are like the shadow without the substance."</div>
+    <div class="enc-quote-attr">— Leo XIII, Sapientiae Christianae, 1890</div>
+  </div>
+
+  <div class="section-label">The hypothesis</div>
+  <div class="hypothesis">
+    Rights without duties produce a healthcare system that extracts rather than heals, a food supply that sickens rather than nourishes, and a population with no credible channel for collective response. A citizen who only receives — who asserts rights without fulfilling obligations — cannot sustain a civilization. A state that only grants — that affirms rights without demanding moral participation — cannot maintain one. <strong>The rights-based system, untethered from duty, has produced the precise moral inversion Leo XIII predicted.</strong>
+  </div>
+
+  <div class="section-label">The result · 135 years later</div>
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-num red">2.4×</div>
+      <div class="data-label">US obesity rate vs. peer nations. Sickest wealthy country on earth by chronic disease metrics.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">700K</div>
+      <div class="data-label">Excess deaths above baseline in 2023. Predicted before pandemic based on pre-existing mortality trends.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">80%</div>
+      <div class="data-label">American urine samples containing glyphosate. EPA says safe. IARC says probably carcinogenic.</div>
+    </div>
+    <div class="data-cell">
+      <div class="data-num red">33%</div>
+      <div class="data-label">Americans who say the country is on the right track. Two-thirds say wrong direction.</div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-dot"></div>
+    <div class="verdict-text">The US is the sickest wealthy nation on earth — eating a contaminated food supply its own government agencies now confirm is driving a chronic disease epidemic, managed by a healthcare system that spends twice the per-capita rate of peer nations to achieve shorter lives. <strong>This is not a funding problem. It is a structural problem — the structure of a system that has no moral ordering principle above profit.</strong></div>
+  </div>
+  <div class="verdict">
+    <div class="verdict-dot green"></div>
+    <div class="verdict-text green-text">The one redemptive finding in the entire index: <strong>the population has correctly diagnosed its situation.</strong> The 2% confidence number, the 66% wrong-track, the 77% who say middle-class life is harder than a generation ago — these reflect accurate pattern recognition, not irrational cynicism. A population that sees clearly possesses the necessary precondition for collective response. The question is whether that clarity arrives in time.</div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full analytical narrative</span>
+      <span class="expand-btn-sub">Plena analytica narratio</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="narrative-text">
+      <p>The United States is the sickest wealthy nation on earth by chronic disease metrics — a structural deterioration spanning decades that has now reached epidemic proportions across virtually every major health category. The CDC documents that 194 million American adults carry at least one chronic condition. The US has 2.4× the obesity rate of comparable wealthy nations, 2× the diabetes rate, 1.7× the asthma rate, and 1.3× the depression rate. These are not marginal differences. They are categorical ones.</p>
+      <p>The US healthcare system is not underperforming. It is performing exactly as its incentive structures dictate. Those structures reward volume, complexity, and billing — not health outcomes. Hospital consolidation has systematically eliminated the price competition that would otherwise constrain costs. The FTC has documented that hospital mergers consistently produce price increases without quality improvements.</p>
+      <p>The 2% confidence figure is the most consequential number in this entire index — not because it is the most dramatic, but because it identifies the structural condition that makes every other crisis on this list effectively unaddressable through normal channels. <strong>Without institutional trust, even correct diagnoses have no credible channel through which to become policy.</strong></p>
+      <p>The collapse of institutional trust is bipartisan — which is the critical distinction. Partisan distrust is normal in a polarized democracy. What is now occurring is different: both parties distrust the same institutions simultaneously. The CDC and FDA trust collapse is not partisan. It is an institutional verdict delivered by the population across party lines. This does not reverse with an election. It reverses only with documented institutional performance change.</p>
+    </div>
+  </div>
+
+  <button class="expand-btn" onclick="toggle(this)">
+    <div>
+      <span class="expand-btn-label">Full encyclical text</span>
+      <span class="expand-btn-sub">Textus pleni encyclicae</span>
+    </div>
+    <span class="expand-btn-icon">+</span>
+  </button>
+  <div class="expand-content">
+    <div class="encyclical-text">
+      <h4>Sapientiae Christianae · 1890 · Selected passages</h4>
+      <p>The chief elements of this duty consist in professing openly and unflinchingly the Catholic doctrine, and in propagating it to the utmost of our power. For, as is often said, with the greatest truth, there is nothing so hurtful to Christian wisdom as that it should not be known, since it incontestably excels every form of philosophical wisdom by the perfection of its principles, the certainty of its truths, and the excellence of its end.</p>
+      <p>Now, those who are about to enter on the active duties of life are greatly deceived in thinking that the desire of novelty and the rejection of what is old are signs of a vigorous intelligence. The love of novelty is not a mark of a cultivated mind, but rather of a vain and restless spirit, unable to recognize either the limitations of its knowledge or the limits of what is lawful.</p>
+      <p>But in this same matter, touching Christian faith, there are other duties whose exact and religious observance, necessary at all times in the interests of eternal salvation, become more especially so in these our days. Amid such reckless and widespread folly of opinion, it is, as We have said, the office of the Church to undertake the defense of truth and uproot errors from the mind, and this charge has to be at all times sacredly observed by her, seeing that the honor of God and the salvation of men are confided to her keeping.</p>
+      <a class="ext-link" href="https://www.vatican.va/content/leo-xiii/en/encyclicals/documents/hf_l-xiii_enc_10011890_sapientiae-christianae.html" target="_blank">Read full text at Vatican.va ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SYNTHESIS — THE COMPOUNDING LOOP
+     ═══════════════════════════════════════════════ -->
+<section class="synthesis" id="synthesis">
+  <div class="synthesis-header">
+    <div class="enc-numeral" style="text-align:center;margin-bottom:1rem;">The Synthesis</div>
+    <div class="enc-english" style="text-align:center;font-size:clamp(20px,3.5vw,30px);">Not fifteen separate problems.<br>One self-reinforcing system. Fifteen faces.</div>
+    <div class="enc-latin" style="text-align:center;margin-top:0.5rem;">Non quindecim problemata separata. Unum systema. Quindecim facies.</div>
+  </div>
+
+  <div class="section-label">The compounding loop</div>
+  <div class="loop-grid">
+    <div class="loop-row">
+      <div class="loop-domain">Food supply + physical health</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">Degraded body = degraded capacity to cope with everything that follows</div>
+    </div>
+    <div class="loop-row">
+      <div class="loop-domain">Healthcare extraction</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">Medical events are financial catastrophes — reducing economic resilience</div>
+    </div>
+    <div class="loop-row">
+      <div class="loop-domain">Economic stress + wage stagnation</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">Mental health deterioration — 27M fewer thriving, 15-point generational decline</div>
+    </div>
+    <div class="loop-row">
+      <div class="loop-domain">AI displacement + education betrayal</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">$1.77T debt for credentials the replacing technology makes obsolete</div>
+    </div>
+    <div class="loop-row">
+      <div class="loop-domain">Demographic collapse</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">Worker-to-retiree ratio falling — entitlement math becomes impossible</div>
+    </div>
+    <div class="loop-row">
+      <div class="loop-domain">Impossible entitlement math + debt spiral</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">No fiscal capacity for public investment — infrastructure, health, education all starved</div>
+    </div>
+    <div class="loop-row">
+      <div class="loop-domain">Social capital collapse</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">No decentralized response infrastructure — everything must route through failed institutions</div>
+    </div>
+    <div class="loop-row">
+      <div class="loop-domain">Information ecosystem collapse</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">No shared factual baseline — cannot collectively perceive problems, cannot solve them</div>
+    </div>
+    <div class="loop-row">
+      <div class="loop-domain">Institutional trust: 2%</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect">Even correct diagnoses have no credible channel to become policy</div>
+    </div>
+    <div class="loop-row" style="background:#050505">
+      <div class="loop-domain" style="color:#cc2200;font-size:12px;">⚡ Political corruption</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-effect" style="color:#444">Accelerant at every node — extracting value while the loop tightens</div>
+    </div>
+  </div>
+
+  <div class="section-label">The final verdict</div>
+  <div class="final-verdict">
+    <div class="final-verdict-text">
+      A population <strong>physically sicker than any comparable wealthy nation</strong> — eating a contaminated food supply its own government agencies now confirm is driving a chronic disease epidemic — while experiencing <strong>sustained real income loss</strong> that would require a 20% pay increase to undo — locked out of housing by the worst affordability ratio in modern history — governed by institutions in which <strong>2% of the public has great confidence</strong> — watching its debt accumulate at $1.9 trillion per year toward a trajectory the CBO projects will consume all discretionary spending in interest payments by 2038 — its entitlement programs built on a worker-to-retiree ratio that has <strong>collapsed from 5.1 to 2.7</strong> and continues falling — a generation burdened with $1.77 trillion in debt for credentials AI is now depreciating — the social capital and religious community that historically enabled decentralized collective response <strong>dissolved and unreplaced</strong> — the information ecosystem consolidated into six corporations optimizing for outrage rather than accuracy — <strong>declining in mental health</strong> across every generational measure — confronting the credible displacement of entry-level employment by artificial intelligence at a speed no previous technological transition has matched — communities permanently hollowed out by an opioid crisis whose financial beneficiaries escaped accountability — physical infrastructure rated <strong>barely passing</strong> — and having correctly assessed, across decades of documented betrayal, that <strong>the systems designed to protect them are not reliably operated in their interest.</strong>
+      <br><br>
+      This is not a mood. It is a diagnosis.
+      <br><br>
+      <strong>Pope Leo XIII wrote the diagnostic criteria in 1891. The data above is the 135-year clinical result.</strong>
+    </div>
+  </div>
+
+  <div class="redemption">
+    <div class="redemption-text">
+      The one potentially redemptive finding in the entire index: <strong>the population's accurate self-diagnosis.</strong> A population that correctly identifies its situation possesses the necessary precondition for collective response. The 2% confidence number, the 66% wrong-track, the 77% who say middle-class life is harder — these reflect accurate pattern recognition, not irrational cynicism. A population that is deceived about its situation cannot address it. <strong>A population that sees clearly can — given the right infrastructure for collective action.</strong> The question the data cannot answer is whether accurate diagnosis will produce collective action before the compounding system reaches a threshold from which structural recovery is impossible.
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <span class="footer-cross">✠</span>
+  <div class="footer-text">
+    The Leo Proof · Mid-2026<br>
+    Nine encyclicals written 1878–1891 · One hundred and thirty-five years of data<br>
+    Non-partisan · Evidence-based · Open methodology<br>
+    Sources: CBO · CDC · Gallup · SSA · ASCE · SEC · Peer-reviewed literature<br>
+    No ideological filter applied in any direction · Write it as a diagnosis.<br><br>
+    The hypothesis was correct.
+  </div>
+</footer>
+
+</div><!-- end .main -->
+
+<script>
+function toggle(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+}
+
+const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+const sections = document.querySelectorAll('section[id]');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+const heroBg = document.querySelector('.hero-bg');
+window.addEventListener('scroll', () => {
+  const scrolled = window.pageYOffset;
+  const heroHeight = document.querySelector('.hero').offsetHeight;
+  if (scrolled < heroHeight * 1.5) {
+    heroBg.style.opacity = Math.max(0, 0.14 - (scrolled / heroHeight) * 0.14);
+  }
+}, { passive: true });
+</script>
+</body>
+</html>
